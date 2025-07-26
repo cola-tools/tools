@@ -1,11 +1,11 @@
-# Toolala工具站
+# Toolala个人旗下站点
 
 
 ![Toolala工具站Logo](Toolala/assets/vico/main.ico)
 
-一个开源免费的工具导航集，提供电脑工具、手机工具和网页工具等多种类型的网站。
+这是一个个人主页，你可以点击“工具集”或“技术博客”进行访问工具站点
 
-Toolala工具站：<a target="_blank" href="https://colatools.cn/" title="Toolala官方">点击访问</a>
+Toolala工具站直达：<a target="_blank" href="https://colatools.cn/Toolala/index.html" title="Toolala官方">点击访问</a>
 
 
 ## 复制公众号名称，在微信搜索公众号即可找到：
