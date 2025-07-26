@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="Toolala/assets/vico/main.ico" type="image/x-icon">
+    <title>tools world - Toolala</title>
+    <style>
+        :root {
+            /* 浅色模式变量 */
+            --bg-light: #f5f7ff;
+            --card-light: #ffffff;
+            --text-light: #333366;
+            --primary-light: #6e48aa;
+            --secondary-light: #9d50bb;
+            --accent-light: #4776e6;
+            --shadow-light: rgba(110, 72, 170, 0.1);
+            
+            /* 深色模式变量 */
+            --bg-dark: #1a1a2e;
+            --card-dark: #2a2a4a;
+            --text-dark: #e6e6ff;
+            --primary-dark: #8a63ff;
+            --secondary-dark: #6a4dff;
+            --accent-dark: #4d9bff;
+            --shadow-dark: rgba(0, 0, 0, 0.3);
+            
+            /* 当前模式变量 */
+            --bg: var(--bg-light);
+            --card: var(--card-light);
+            --text: var(--text-light);
+            --primary: var(--primary-light);
+            --secondary: var(--secondary-light);
+            --accent: var(--accent-light);
+            --shadow: var(--shadow-light);
+            
+            --pixel: 'Courier New', monospace;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        /* 深色模式 */
+        body.dark-mode {
+            --bg: var(--bg-dark);
+            --card: var(--card-dark);
+            --text: var(--text-dark);
+            --primary: var(--primary-dark);
+            --secondary: var(--secondary-dark);
+            --accent: var(--accent-dark);
+            --shadow: var(--shadow-dark);
+        }
+        
+        /* 维吾尔文模式 */
+        body.uyghur-mode {
+            direction: rtl;
+            font-family: 'Arial Unicode MS', 'Microsoft Sans Serif', sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: var(--transition);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 导航栏 */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            position: relative;
+            z-index: 100;
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            font-family: var(--pixel);
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            order: 1;
+        }
+        
+        .logo-icon {
+            width: 30px;
+            height: 30px;
+            background-color: var(--primary);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            order: 3;
+            width: 100%;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .nav-link {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: var(--transition);
+            opacity: 0.8;
+            font-size: 0.95rem;
+        }
+        
+        .nav-link:hover {
+            opacity: 1;
+            background-color: rgba(138, 99, 255, 0.1);
+        }
+        
+        /* 导航右侧区域 */
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            order: 2;
+        }
+        
+        /* 主题切换按钮 */
+        .theme-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--card);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .theme-icon {
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+        
+        .sun {
+            color: #ffcc00;
+            position: absolute;
+            transform: translateY(0);
+            opacity: 0;
+        }
+        
+        .moon {
+            color: #6a4dff;
+            position: absolute;
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        body.dark-mode .sun {
+            opacity: 1;
+        }
+        
+        body.dark-mode .moon {
+            opacity: 0;
+        }
+        
+        /* 语言切换 */
+        .language-switcher {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .language-btn {
+            background-color: var(--card);
+            color: var(--text);
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            box-shadow: 0 2px 5px var(--shadow);
+            transition: var(--transition);
+            font-size: 0.9rem;
+            height: 40px;
+        }
+        
+        .language-btn:hover {
+            background-color: rgba(138, 99, 255, 0.1);
+        }
+        
+        .language-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--card);
+            min-width: 120px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px var(--shadow);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: var(--transition);
+        }
+        
+        .language-switcher:hover .language-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .language-option {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .language-option:hover {
+            background-color: rgba(138, 99, 255, 0.1);
+            color: var(--primary);
+        }
+        
+        .language-option.active {
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        /* 头部内容 */
+        header {
+            text-align: center;
+            padding: 60px 0 40px;
+            position: relative;
+        }
+        
+        .avatar-container {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 30px;
+        }
+        
+        .avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            object-fit: cover;
+            border: 5px solid var(--card);
+            box-shadow: 0 15px 35px var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            z-index: 2;
+            background-color: var(--card);
+        }
+        
+        .avatar-shadow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            top: 8px;
+            left: 8px;
+            z-index: 1;
+            opacity: 0.7;
+            transition: var(--transition);
+        }
+        
+        .avatar-container:hover .avatar {
+            transform: translate(-5px, -5px);
+        }
+        
+        .avatar-container:hover .avatar-shadow {
+            transform: translate(5px, 5px);
+            opacity: 0.9;
+        }
+        
+        h1 {
+            font-family: var(--pixel);
+            font-size: 2.8rem;
+            margin: 20px 0 10px;
+            color: var(--text);
+            letter-spacing: 2px;
+            text-shadow: 3px 3px 0 var(--shadow);
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--text);
+            margin-bottom: 30px;
+            position: relative;
+            display: inline-block;
+            opacity: 0.8;
+        }
+        
+        .tagline::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .social-link {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background-color: var(--card);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 1.2rem;
+            transition: var(--transition);
+            box-shadow: 5px 5px 0 var(--shadow);
+            border: 1px solid rgba(138, 99, 255, 0.2);
+            cursor: pointer;
+        }
+        
+        .social-link:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 8px 8px 0 rgba(138, 99, 255, 0.3);
+            color: var(--primary);
+        }
+        
+        /* 网格布局 */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+        
+        /* 卡片设计 */
+        .card {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 30px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 8px 8px 0 var(--shadow);
+            border: 1px solid rgba(138, 99, 255, 0.1);
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(138, 99, 255, 0.05), rgba(106, 77, 255, 0.05));
+            z-index: 1;
+        }
+        
+        .card:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 12px 12px 0 rgba(138, 99, 255, 0.15);
+        }
+        
+        h2 {
+            font-family: var(--pixel);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--text);
+            position: relative;
+            display: inline-block;
+            z-index: 2;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+        
+        /* 技能标签 */
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .skill-tag {
+            background: var(--card);
+            color: var(--text);
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            border: 1px solid rgba(138, 99, 255, 0.3);
+            box-shadow: 3px 3px 0 var(--shadow);
+        }
+        
+        .skill-tag:hover {
+            transform: translateY(-3px);
+            box-shadow: 5px 5px 0 rgba(138, 99, 255, 0.2);
+            color: var(--primary);
+        }
+        
+        /* 项目展示 */
+        .project {
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 1px dashed rgba(138, 99, 255, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .project:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .project h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+        
+        .project p {
+            color: var(--text);
+            opacity: 0.8;
+            margin-bottom: 15px;
+        }
+        
+        /* 联系信息 */
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background-color: rgba(138, 99, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+        
+        /* 导航按钮 */
+        .site-nav {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .nav-button {
+            background: var(--card);
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--text);
+            transition: var(--transition);
+            box-shadow: 5px 5px 0 var(--shadow);
+            border: 1px solid rgba(138, 99, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-button:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 8px 8px 0 rgba(138, 99, 255, 0.2);
+        }
+        
+        .nav-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(138, 99, 255, 0.05), rgba(106, 77, 255, 0.05));
+            z-index: 1;
+        }
+        
+        /* 页脚 */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 50px;
+            border-top: 1px solid rgba(138, 99, 255, 0.1);
+            color: var(--text);
+            opacity: 0.7;
+        }
+        
+        /* 像素光标 */
+        .pixel-cursor {
+            position: fixed;
+            width: 16px;
+            height: 16px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease;
+            mix-blend-mode: multiply;
+            opacity: 1;
+        }
+        
+        .pixel-cursor-follower {
+            position: fixed;
+            width: 32px;
+            height: 32px;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
+            mix-blend-mode: multiply;
+            opacity: 1;
+        }
+        
+        body.cursor-hidden .pixel-cursor,
+        body.cursor-hidden .pixel-cursor-follower {
+            opacity: 0;
+        }
+        
+        /* 表情容器 */
+        .emoji-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9990;
+        }
+        
+        .emoji {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.65;
+            animation: emojiFloat 3s forwards;
+            user-select: none;
+        }
+        
+        @keyframes emojiFloat {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.65;
+            }
+            100% {
+                transform: translateY(-100px) rotate(20deg);
+                opacity: 0;
+            }
+        }
+        
+        /* 像素按钮 */
+        .pixel-btn {
+            position: relative;
+            padding: 12px 30px;
+            background: var(--card);
+            color: var(--text);
+            border: 2px solid var(--primary);
+            font-family: var(--pixel);
+            letter-spacing: 1px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: var(--transition);
+            margin: 10px 0;
+            display: inline-block;
+            box-shadow: 5px 5px 0 var(--shadow);
+            z-index: 2;
+        }
+        
+        .pixel-btn:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 8px 8px 0 rgba(138, 99, 255, 0.3);
+            color: var(--primary);
+        }
+        
+        .pixel-btn:active {
+            transform: translate(0, 0);
+            box-shadow: 3px 3px 0 var(--shadow);
+        }
+        
+        .pixel-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(138, 99, 255, 0.1), rgba(106, 77, 255, 0.1));
+            z-index: -1;
+        }
+        
+        /* 社交浮窗样式 */
+        .social-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+        
+        .social-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .social-modal-content {
+            background-color: var(--card);
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            box-shadow: 0 15px 35px var(--shadow);
+            position: relative;
+            transform: translateY(20px);
+            transition: var(--transition);
+            border: 1px solid rgba(138, 99, 255, 0.1);
+        }
+        
+        .social-modal.active .social-modal-content {
+            transform: translateY(0);
+        }
+        
+        .social-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .social-modal-title {
+            font-family: var(--pixel);
+            font-size: 1.5rem;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .social-modal-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background-color: rgba(138, 99, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        
+        .social-modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text);
+            cursor: pointer;
+            opacity: 0.7;
+            transition: var(--transition);
+        }
+        
+        .social-modal-close:hover {
+            opacity: 1;
+            color: var(--primary);
+        }
+        
+        .social-modal-body {
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .social-modal-qrcode {
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 10px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .social-modal-qrcode img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        
+        .social-modal-footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        
+        /* 响应式设计 */
+        @media (min-width: 768px) {
+            .nav-links {
+                order: 2;
+                width: auto;
+                margin-top: 0;
+                margin-left: auto;
+                margin-right: 20px;
+            }
+            
+            .navbar-right {
+                order: 3;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .avatar-container {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .site-nav {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            /* 移动设备隐藏光标 */
+            .pixel-cursor, .pixel-cursor-follower {
+                display: none !important;
+            }
+            
+            /* 社交浮窗调整 */
+            .social-modal-content {
+                width: 95%;
+                padding: 20px;
+            }
+            
+            .social-modal-title {
+                font-size: 1.3rem;
+            }
+            
+            .social-modal-qrcode {
+                width: 150px;
+                height: 150px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .language-dropdown {
+                left: 0;
+                right: auto;
+            }
+            
+            /* 社交浮窗调整 */
+            .social-modal-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .social-modal-close {
+                position: absolute;
+                top: 15px;
+                right: 15px;
+            }
+            
+            .nav-links {
+                gap: 10px;
+            }
+            
+            .nav-link {
+                padding: 6px 10px;
+                font-size: 0.85rem;
+            }
+        }
+        
+        /* 维吾尔文样式调整 */
+        body.uyghur-mode .tagline::after,
+        body.uyghur-mode h2::after {
+            left: auto;
+            right: 0;
+        }
+        
+        body.uyghur-mode .contact-item {
+            flex-direction: row-reverse;
+        }
+        
+        body.uyghur-mode .project h3,
+        body.uyghur-mode .project p {
+            text-align: right;
+        }
+        
+        body.uyghur-mode .skill-tags {
+            justify-content: flex-end;
+        }
+        
+        body.uyghur-mode .social-links {
+            direction: ltr; /* 保持社交图标方向不变 */
+        }
+        
+        body.uyghur-mode .social-modal-header {
+            direction: rtl;
+        }
+        
+        body.uyghur-mode .social-modal-title {
+            flex-direction: row-reverse;
+        }
+        
+        body.uyghur-mode .social-modal-body {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="pixel-cursor"></div>
+    <div class="pixel-cursor-follower"></div>
+    <div class="emoji-container" id="emojiContainer"></div>
+    
+    <!-- 社交浮窗 -->
+    <div class="social-modal" id="socialModal">
+        <div class="social-modal-content">
+            <div class="social-modal-header">
+                <div class="social-modal-title">
+                    <div class="social-modal-icon" id="modalIcon">微</div>
+                    <span id="modalTitle">微信</span>
+                </div>
+                <button class="social-modal-close" id="modalClose">&times;</button>
+            </div>
+            <div class="social-modal-body" id="modalBody">
+                <p>扫描下方二维码添加我的微信</p>
+                <div class="social-modal-qrcode">
+                    <img src="https://via.placeholder.com/200x200" alt="二维码" id="modalQrcode">
+                </div>
+                <p>或直接搜索微信号: <strong id="modalAccount">ylztii0718</strong></p>
+            </div>
+            <div class="social-modal-footer">
+                <p>添加时请备注来意</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">T</span>
+                <span class="logo-text">tools world</span>
+            </a>
+            
+            <div class="nav-links">
+                <a href="index.html" class="nav-link" data-lang-key="nav.home">首页</a>
+                <a href="#about" class="nav-link" data-lang-key="nav.about">关于</a>
+                <a href="#projects" class="nav-link" data-lang-key="nav.projects">作品</a>
+                <a href="#contact" class="nav-link" data-lang-key="nav.contact">联系</a>
+            </div>
+            
+            <div class="navbar-right">
+                <button class="theme-toggle" id="themeToggle">
+                    <span class="theme-icon sun">☀️</span>
+                    <span class="theme-icon moon">🌙</span>
+                </button>
+                
+                <div class="language-switcher">
+                    <button class="language-btn" id="languageBtn">
+                        <span class="language-flag">🇨🇳</span>
+                        <span class="language-code">CN</span>
+                    </button>
+                    <div class="language-dropdown">
+                        <div class="language-option active" data-lang="zh" data-lang-code="CN">
+                            <span class="language-flag">🇨🇳</span>
+                            <span data-lang-key="language.chinese">中文</span>
+                        </div>
+                        <div class="language-option" data-lang="en" data-lang-code="EN">
+                            <span class="language-flag">🇺🇸</span>
+                            <span data-lang-key="language.english">English</span>
+                        </div>
+                        <div class="language-option" data-lang="ug" data-lang-code="UG">
+                            <span class="language-flag">🇨🇳</span>
+                            <span data-lang-key="language.uyghur">ئۇيغۇرچە</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- 头部内容 -->
+        <header>
+            <div class="avatar-container">
+                <div class="avatar-shadow"></div>
+                <img src="Toolala/assets/vico/main.ico" alt="LOGO" class="avatar">
+            </div>
+            <h1 data-lang-key="title">奇妙探索者</h1>
+            <p class="tagline" data-lang-key="tagline">探索免费宝藏，玩转数字时代</p>
+            
+            <div class="social-links">
+                <button class="social-link" data-social="wechat">微</button>
+                <button class="social-link" data-social="qq">Q</button>
+                <button class="social-link" data-social="github">G</button>
+                <button class="social-link" data-social="bilibili">B</button>
+            </div>
+        </header>
+        
+        <!-- 站点导航按钮 -->
+        <div class="site-nav">
+            <a href="Toolala/index.html" class="nav-button" data-lang-key="nav.blog">
+                <span class="nav-icon">📝</span>
+                <span data-lang-key="nav.blog">技术博客</span>
+            </a>
+            <a href="Toolala/index.html" class="nav-button" data-lang-key="nav.tools">
+                <span class="nav-icon">🛠️</span>
+                <span data-lang-key="nav.tools">工具集</span>
+            </a>
+        </div>
+        
+        <!-- 主要内容 -->
+        <div class="grid">
+            <section id="about" class="card">
+                <h2 data-lang-key="about.title">关于我</h2>
+                <p data-lang-key="about.p1">我是00后在校学生，因22年的一时兴趣，便踏上了自学编程的路，在学习路上因为经验不足，有过很多坎坷；但因兴趣，一直不肯放弃，现如今已经学会了前端的基础</p>
+                <p data-lang-key="about.p2">也不算全会，因近年AI（人工智能）的发达，人们普遍使用AI技术办公等等，所以我也便踏入了AI领域，使用AI开发高难度逻辑代码等等</p>
+            </section>
+            
+            <section id="skills" class="card">
+                <h2 data-lang-key="skills.title">我的技能</h2>
+                <p data-lang-key="skills.description">我专注于前端基础，CSS基础，JS基础等开发技术：</p>
+                <div class="skill-tags">
+                    <span class="skill-tag" data-lang-key="skills.1">自学编程</span>
+                    <span class="skill-tag" data-lang-key="skills.2">前端技术</span>
+                    <span class="skill-tag" data-lang-key="skills.3">前端开发</span>
+                    <span class="skill-tag" data-lang-key="skills.4">CSS基础</span>
+                    <span class="skill-tag" data-lang-key="skills.5">响应式设计</span>
+                    <span class="skill-tag" data-lang-key="skills.6">JavaScript基础</span>
+                </div>
+            </section>
+        </div>
+        
+        <div class="grid">
+            <section id="projects" class="card">
+                <h2 data-lang-key="projects.title">我的作品</h2>
+                <div class="project">
+                    <h3 data-lang-key="projects.1.title">开源项目 - Toolala工具站</h3>
+                    <p data-lang-key="projects.1.p1">Toolala是个人开发，在个人（小可乐）旗下的工具站点，可以提供工具，APP，程序，网站源码等等，而且大多数免费使用，无广告，捆绑软件等</p>
+                    <p data-lang-key="projects.1.p2">Toolala近期因技术，网络，服务器等原因，导致无法正常更新，所以各大用户不要参考站内公告，站内视频上传公告时间延迟，预计在8月15日左右进行上传视频，在此期间，还请广大用户谅解，我们会尽快维护服务器，使其正常运行并更新</p>
+                </div>
+            </section>
+            
+            <section id="contact" class="card">
+                <h2 data-lang-key="contact.title">联系我</h2>
+                <p data-lang-key="contact.description">如果您对我的作品感兴趣，欢迎通过以下方式联系我：</p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">邮</div>
+                        <span class="nav-button">2171156701@qq.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">Q</div>
+                        <span><a href="https://qm.qq.com/q/SxW7aoFaIW" class="nav-button" data-lang-key="contact.qq">点击即可添加QQ</a></span>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">微</div>
+                        <span class="nav-button">ylztii0718</span>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">G</div>
+                        <span><a href="https://github.com/" class="nav-button" data-lang-key="contact.github">点击即可访问github</a></span>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <footer>
+            <p data-lang-key="footer.copyright">© 2025 可乐科技 · 保留所有权利</p>
+            <p data-lang-key="footer.slogan">探索前所未有的奇妙工具</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 社交平台数据
+        const socialData = {
+            wechat: {
+                title: {
+                    zh: "微信",
+                    en: "WeChat",
+                    ug: "WeChat"
+                },
+                icon: "微",
+                qrcode: "https://via.placeholder.com/200x200?text=WeChat+QR",
+                account: {
+                    zh: "ylztii0718",
+                    en: "ylztii0718",
+                    ug: "ylztii0718"
+                },
+                description: {
+                    zh: "扫描下方二维码添加我的微信",
+                    en: "Scan the QR code below to add my WeChat",
+                    ug: "تۆۋەندىكى QR كودنى سىكانىرلاپ مېنىڭ WeChat قوشۇڭ"
+                },
+                footer: {
+                    zh: "添加时请备注来意",
+                    en: "Please note your purpose when adding",
+                    ug: "قوشقاندا مەقسىتىڭىزنى بىلدۈرۈڭ"
+                }
+            },
+            qq: {
+                title: {
+                    zh: "QQ",
+                    en: "QQ",
+                    ug: "QQ"
+                },
+                icon: "Q",
+                qrcode: "https://via.placeholder.com/200x200?text=QQ+QR",
+                account: {
+                    zh: "2171156701",
+                    en: "2171156701",
+                    ug: "2171156701"
+                },
+                description: {
+                    zh: "扫描下方二维码添加我的QQ",
+                    en: "Scan the QR code below to add my QQ",
+                    ug: "تۆۋەندىكى QR كودنى سىكانىرلاپ مېنىڭ QQ قوشۇڭ"
+                },
+                footer: {
+                    zh: "添加时请备注来意",
+                    en: "Please note your purpose when adding",
+                    ug: "قوشقاندا مەقسىتىڭىزنى بىلدۈرۈڭ"
+                }
+            },
+            github: {
+                title: {
+                    zh: "GitHub",
+                    en: "GitHub",
+                    ug: "GitHub"
+                },
+                icon: "G",
+                qrcode: "https://via.placeholder.com/200x200?text=GitHub+QR",
+                account: {
+                    zh: "https://github.com/",
+                    en: "https://github.com/",
+                    ug: "https://github.com/"
+                },
+                description: {
+                    zh: "扫描下方二维码访问我的GitHub",
+                    en: "Scan the QR code below to visit my GitHub",
+                    ug: "تۆۋەندىكى QR كودنى سىكانىرلاپ مېنىڭ GitHub زىيارەت قىلىڭ"
+                },
+                footer: {
+                    zh: "欢迎Star和Fork我的项目",
+                    en: "Welcome to star and fork my projects",
+                    ug: "مېنىڭ تۈرلىرىمنى star ۋە fork قىلىشنى ساقلىغىنى"
+                }
+            },
+            bilibili: {
+                title: {
+                    zh: "哔哩哔哩",
+                    en: "Bilibili",
+                    ug: "Bilibili"
+                },
+                icon: "B",
+                qrcode: "https://via.placeholder.com/200x200?text=Bilibili+QR",
+                account: {
+                    zh: "https://www.bilibili.com/",
+                    en: "https://www.bilibili.com/",
+                    ug: "https://www.bilibili.com/"
+                },
+                description: {
+                    zh: "扫描下方二维码访问我的哔哩哔哩",
+                    en: "Scan the QR code below to visit my Bilibili",
+                    ug: "تۆۋەندىكى QR كودنى سىكانىرلاپ مېنىڭ Bilibili زىيارەت قىلىڭ"
+                },
+                footer: {
+                    zh: "欢迎关注和点赞我的视频",
+                    en: "Welcome to follow and like my videos",
+                    ug: "مېنىڭ ۋىدىئولىرىمنى ئەگەشىپ لايك قويۇشنى ساقلىغىنى"
+                }
+            }
+        };
+
+        // 语言数据
+        const languageData = {
+            zh: {
+                "nav.home": "首页",
+                "nav.about": "关于",
+                "nav.projects": "作品",
+                "nav.contact": "联系",
+                "nav.blog": "技术博客",
+                "nav.tools": "工具集",
+                "title": "奇妙探索者",
+                "tagline": "探索免费宝藏，玩转数字时代",
+                "about.title": "关于我",
+                "about.p1": "我是00后在校学生，因22年的一时兴趣，便踏上了自学编程的路，在学习路上因为经验不足，有过很多坎坷；但因兴趣，一直不肯放弃，现如今已经学会了前端的基础",
+                "about.p2": "也不算全会，因近年AI（人工智能）的发达，人们普遍使用AI技术办公等等，所以我也便踏入了AI领域，使用AI开发高难度逻辑代码等等",
+                "skills.title": "我的技能",
+                "skills.description": "我专注于前端基础，CSS基础，JS基础等开发技术：",
+                "skills.1": "自学编程",
+                "skills.2": "前端技术",
+                "skills.3": "前端开发",
+                "skills.4": "CSS基础",
+                "skills.5": "响应式设计",
+                "skills.6": "JavaScript基础",
+                "projects.title": "我的作品",
+                "projects.1.title": "开源项目 - Toolala工具站",
+                "projects.1.p1": "Toolala是个人开发，在个人（小可乐）旗下的工具站点，可以提供工具，APP，程序，网站源码等等，而且大多数免费使用，无广告，捆绑软件等",
+                "projects.1.p2": "Toolala近期因技术，网络，服务器等原因，导致无法正常更新，所以各大用户不要参考站内公告，站内视频上传公告时间延迟，预计在8月15日左右进行上传视频，在此期间，还请广大用户谅解，我们会尽快维护服务器，使其正常运行并更新",
+                "contact.title": "联系我",
+                "contact.description": "如果您对我的作品感兴趣，欢迎通过以下方式联系我：",
+                "contact.qq": "点击即可添加QQ",
+                "contact.github": "点击即可访问github",
+                "footer.copyright": "© 2025 可乐科技 · 保留所有权利",
+                "footer.slogan": "探索前所未有的奇妙工具",
+                "language.chinese": "中文",
+                "language.english": "English",
+                "language.uyghur": "ئۇيغۇرچە"
+            },
+            en: {
+                "nav.home": "Home",
+                "nav.about": "About",
+                "nav.projects": "Projects",
+                "nav.contact": "Contact",
+                "nav.blog": "Tech Blog",
+                "nav.tools": "Toolset",
+                "title": "Wonder Explorer",
+                "tagline": "Explore free treasures, play in the digital age",
+                "about.title": "About Me",
+                "about.p1": "I am a post-00s student. Out of interest in 2022, I started self-learning programming. Due to lack of experience, I encountered many difficulties along the way; but because of my interest, I never gave up. Now I have learned the basics of front-end development.",
+                "about.p2": "Not everything is perfect. With the advancement of AI (Artificial Intelligence) in recent years, people commonly use AI technology for work, etc. So I also stepped into the field of AI, using AI to develop complex logic code, etc.",
+                "skills.title": "My Skills",
+                "skills.description": "I focus on front-end basics, CSS basics, JS basics and other development technologies:",
+                "skills.1": "Self-taught Programming",
+                "skills.2": "Front-end Technology",
+                "skills.3": "Front-end Development",
+                "skills.4": "CSS Basics",
+                "skills.5": "Responsive Design",
+                "skills.6": "JavaScript Basics",
+                "projects.title": "My Projects",
+                "projects.1.title": "Open Source - Toolala Tool Site",
+                "projects.1.p1": "Toolala is a personal development, a tool site under the personal (Xiao Kele) brand, which can provide tools, APPs, programs, website source code, etc., and most of them are free to use, no ads, no bundled software, etc.",
+                "projects.1.p2": "Recently, Toolala cannot be updated normally due to technical, network, server and other reasons, so users should not refer to the site announcements. The video upload announcement time on the site is delayed, and it is expected to upload videos around August 15. During this period, please understand, we will maintain the server as soon as possible to make it run normally and update.",
+                "contact.title": "Contact Me",
+                "contact.description": "If you are interested in my work, please feel free to contact me through the following ways:",
+                "contact.qq": "Click to add QQ",
+                "contact.github": "Click to visit GitHub",
+                "footer.copyright": "© 2025 Cola Technology · All rights reserved",
+                "footer.slogan": "Discover amazing tools like never before",
+                "language.chinese": "Chinese",
+                "language.english": "English",
+                "language.uyghur": "Uyghur"
+            },
+            ug: {
+                "nav.home": "باش بەت",
+                "nav.about": "ھەققىدە",
+                "nav.projects": "قوراللار",
+                "nav.contact": "ئالاقىلەش",
+                "nav.blog": "تېخنىكا بىلوگى",
+                "nav.tools": "قوراللار توپلىمى",
+                "title": "ئاجايىپ ئىزدىگۈچى",
+                "tagline": "ھەقسىز بايلىقلارنى كاشىپ قىلىڭ، سانلىق دەۋردە ئويناڭ",
+                "about.title": "مەن ھەققىدە",
+                "about.p1": "مەن 2000-يىللاردىن كېيىن تۇغۇلغان مەكتەپ ئوقۇغۇچىسى. 2022-يىلى قىزىقىش سەۋەبىدىن، پروگراممىرلىقنى ئۆزىم ئۆگىنىش يولىغا چىقتىم. ئۆگىنىش جەريانىدا تەجرىبىسىزلىك سەۋەبىدىن نۇرغۇن قىيىنچىلىقلارغا يول قويۇپتۇ؛ لېكىن قىزىقىش سەۋەبىدىن، ھەرگىز بەرمىدىم. ھازىر ئالدىنقى قىسىم ئاساسىي بىلىملەرنى ئۆگەندىم.",
+                "about.p2": "ھەممىسى مۇكەممەل ئەمەس. يېقىنقى يىللاردىن بېرى AI (سۇنئىي ئەقىل) تەرەققىياتى سەۋەبىدىن، كىشىلەر ئادەتتە AI تېخنىكىسىنى ئىشلىتىپ خىزمەت قىلىدۇ. شۇڭا مەنمۇ AI ساھەسىگە قەدەم قويدۇم، AI دىن پايدىلىنىپ مۇرەككەپ لىگىكا كودى يازدىم.",
+                "skills.title": "مېنىڭ ماھارەتلىرىم",
+                "skills.description": "مەن ئالدىنقى قىسىم ئاساسىي بىلىملەر، CSS ئاساسىي بىلىملەر، JS ئاساسىي بىلىملەر ۋە باشقا تەرەققىيات تېخنىكىلىرىغا دىققەت قىلىمەن:",
+                "skills.1": "ئۆزلۈكىدىن ئۆگىنىش",
+                "skills.2": "ئالدىنقى قىسىم تېخنىكىسى",
+                "skills.3": "ئالدىنقى قىسىم تەرەققىياتى",
+                "skills.4": "CSS ئاساسىي بىلىملەر",
+                "skills.5": "جاۋاب بېرىشچان لايىھىلەش",
+                "skills.6": "JavaScript ئاساسىي بىلىملەر",
+                "projects.title": "مېنىڭ تۈرلىرىم",
+                "projects.1.title": "ئوچۇق كودلۇق - Toolala قورال بېكىتى",
+                "projects.1.p1": "Toolala شەخسىي تەرەققىيات، شەخسىي (Xiao Kele) ماركىسىدىكى قورال بېكىتى بولۇپ، قوراللار، APPs، پروگراممىلار، تور بېكەت كودلىرى قاتارلىقلارنى تەمىنلەيدۇ، كۆپىنچىسى ھەقسىز ئىشلىتىلىدۇ، ئېلان يوق، قوشۇلما پروگرامما يوق.",
+                "projects.1.p2": "يېقىندا Toolala تېخنىكا، تور، مۇلازىمېتىر قاتارلىق سەۋەبلەر تۈپەيلىدىن نورمال يېڭىلانالمىدى، شۇڭا ئىشلەتكۈچىلەر بېكەت ئىچىدىكى ئېلانلارغا ئاساسەنمەسلىك كېرەك. بېكەت ئىچىدىكى ۋىدىئو يۈكلەش ئېلانى ۋاقتى كېچىكىپ قالدى، ئۆتكۈزۈلۈشى 15-ئاۋغۇست ئەتراپىدا ۋىدىئو يۈكلەندە بولىدۇ. بۇ جەرياندا، كەڭ ئىشلەتكۈچىلەر چىڭ تۇرۇپ، بىز مۇلازىمېتىرنى تېز ئەڭ ياخشى ھالەتتە تۇتۇپ، نورمال ئىشلەتكىلى تېز يېڭىلايمىز.",
+                "contact.title": "مەن بىلەن ئالاقىلەش",
+                "contact.description": "ئەگەر مېنىڭ تۈرلىرىمگە قىزىقسىڭىز، تۆۋەندىكى ئۇسۇللار ئارقىلىق مەن بىلەن ئالاقىلەشىڭىز مۇمكىن:",
+                "contact.qq": "QQ قوشۇش ئۈچۈن چېكىڭ",
+                "contact.github": "GitHub زىيارەت ئۈچۈن چېكىڭ",
+                "footer.copyright": "© 2025 كولا تېخنىكا · بارلىق ھوقۇقلىرى ساقلانغان",
+                "footer.slogan": "مىسلى كۆرۈلمىگەن ئاجايىپ قوراللار ئۈستىدە ئىزدىنىش",
+                "language.chinese": "خەنزۇچە",
+                "language.english": "ئىنگلىزچە",
+                "language.uyghur": "ئۇيغۇرچە"
+            }
+        };
+
+        // 昼夜模式切换
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        // 检查本地存储或系统偏好
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const currentTheme = localStorage.getItem('theme');
+        
+        if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
+            body.classList.add('dark-mode');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            // 保存用户选择
+            const theme = body.classList.contains('dark-mode') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+        });
+        
+        // 语言切换功能
+        const languageBtn = document.getElementById('languageBtn');
+        const languageOptions = document.querySelectorAll('.language-option');
+        let currentLanguage = localStorage.getItem('language') || 'zh';
+        
+        // 初始化语言
+        function setLanguage(lang) {
+            // 更新UI
+            document.querySelectorAll('.language-option').forEach(option => {
+                option.classList.remove('active');
+                if (option.dataset.lang === lang) {
+                    option.classList.add('active');
+                }
+            });
+            
+            // 更新按钮显示
+            const activeOption = document.querySelector(`.language-option[data-lang="${lang}"]`);
+            languageBtn.innerHTML = `
+                <span class="language-flag">${activeOption.querySelector('.language-flag').textContent}</span>
+                <span class="language-code">${activeOption.dataset.langCode}</span>
+            `;
+            
+            // 更新页面内容
+            document.querySelectorAll('[data-lang-key]').forEach(element => {
+                const key = element.getAttribute('data-lang-key');
+                if (languageData[lang] && languageData[lang][key]) {
+                    element.textContent = languageData[lang][key];
+                }
+            });
+            
+            // 更新body类
+            body.classList.remove('uyghur-mode');
+            if (lang === 'ug') {
+                body.classList.add('uyghur-mode');
+            }
+            
+            // 保存语言选择
+            localStorage.setItem('language', lang);
+            currentLanguage = lang;
+        }
+        
+        // 语言选项点击事件
+        languageOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                setLanguage(option.dataset.lang);
+            });
+        });
+        
+        // 初始化语言
+        setLanguage(currentLanguage);
+        
+        // 社交浮窗功能
+        const socialModal = document.getElementById('socialModal');
+        const modalIcon = document.getElementById('modalIcon');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+        const modalQrcode = document.getElementById('modalQrcode');
+        const modalAccount = document.getElementById('modalAccount');
+        const modalClose = document.getElementById('modalClose');
+        const socialLinks = document.querySelectorAll('.social-link');
+        
+        // 打开社交浮窗
+        function openSocialModal(social) {
+            const data = socialData[social];
+            modalIcon.textContent = data.icon;
+            modalTitle.textContent = data.title[currentLanguage];
+            modalQrcode.src = data.qrcode;
+            modalAccount.textContent = data.account[currentLanguage];
+            
+            // 更新浮窗内容
+            modalBody.innerHTML = `
+                <p>${data.description[currentLanguage]}</p>
+                <div class="social-modal-qrcode">
+                    <img src="${data.qrcode}" alt="二维码">
+                </div>
+                <p>${social === 'github' || social === 'bilibili' ? 
+                    (currentLanguage === 'zh' ? '或直接访问: ' : 
+                     currentLanguage === 'en' ? 'Or visit directly: ' : 
+                     'ياكى بىۋاستە زىيارەت قىلىڭ: ') : 
+                    (currentLanguage === 'zh' ? '或直接搜索: ' : 
+                     currentLanguage === 'en' ? 'Or search directly: ' : 
+                     'ياكى بىۋاستە ئىزدەڭ: ')}<strong>${data.account[currentLanguage]}</strong></p>
+            `;
+            
+            // 更新页脚
+            document.querySelector('.social-modal-footer p').textContent = data.footer[currentLanguage];
+            
+            // 显示浮窗
+            socialModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // 关闭社交浮窗
+        function closeSocialModal() {
+            socialModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        // 社交链接点击事件
+        socialLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                const social = link.dataset.social;
+                openSocialModal(social);
+            });
+        });
+        
+        // 关闭按钮点击事件
+        modalClose.addEventListener('click', closeSocialModal);
+        
+        // 点击浮窗外部关闭
+        socialModal.addEventListener('click', (e) => {
+            if (e.target === socialModal) {
+                closeSocialModal();
+            }
+        });
+        
+        // 检测移动设备并移除光标效果
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+        
+        if (isMobileDevice()) {
+            document.querySelector('.pixel-cursor').style.display = 'none';
+            document.querySelector('.pixel-cursor-follower').style.display = 'none';
+        } else {
+            // 像素光标效果
+            const cursor = document.querySelector('.pixel-cursor');
+            const cursorFollower = document.querySelector('.pixel-cursor-follower');
+            
+            // 光标离开页面时隐藏
+            document.addEventListener('mouseleave', () => {
+                body.classList.add('cursor-hidden');
+            });
+            
+            // 光标进入页面时显示
+            document.addEventListener('mouseenter', () => {
+                body.classList.remove('cursor-hidden');
+            });
+            
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+                
+                setTimeout(() => {
+                    cursorFollower.style.left = e.clientX + 'px';
+                    cursorFollower.style.top = e.clientY + 'px';
+                }, 100);
+            });
+            
+            // 交互元素悬停效果
+            const interactiveElements = document.querySelectorAll(
+                'a, button, .skill-tag, .card, .nav-button, .social-link, .social-modal-close'
+            );
+            
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                    cursorFollower.style.width = '40px';
+                    cursorFollower.style.height = '40px';
+                });
+                
+                el.addEventListener('mouseleave', () => {
+                    cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+                    cursorFollower.style.width = '32px';
+                    cursorFollower.style.height = '32px';
+                });
+            });
+        }
+        
+        // 表情弹出效果
+        const emojis = ['😊', '👍', '✨', '🎨', '💻', '🌈', '🚀', '💡', '👁️', '🧊'];
+        const emojiContainer = document.getElementById('emojiContainer');
+        
+        function createEmoji(e) {
+            const emoji = document.createElement('div');
+            emoji.className = 'emoji';
+            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            
+            // 设置位置在按钮周围随机出现
+            const btnRect = e.target.getBoundingClientRect();
+            const x = btnRect.left + Math.random() * btnRect.width;
+            const y = btnRect.top + Math.random() * btnRect.height;
+            
+            emoji.style.left = x + 'px';
+            emoji.style.top = y + 'px';
+            
+            // 随机动画方向
+            const direction = Math.random() > 0.5 ? 1 : -1;
+            emoji.style.setProperty('--direction', direction);
+            
+            emojiContainer.appendChild(emoji);
+            
+            // 动画结束后移除元素
+            setTimeout(() => {
+                emoji.remove();
+            }, 3000);
+        }
+        
+        // 为所有按钮添加表情效果
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                createEmoji(e);
+            });
+        });
+        
+        // 裸眼3D按钮效果
+        const buttons = document.querySelectorAll('.pixel-btn, .nav-button');
+        
+        buttons.forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const angleX = (centerY - y) / 10;
+                const angleY = (x - centerX) / 10;
+                
+                btn.style.transform = `translate(-3px, -3px) rotateX(${angleX}deg) rotateY(${angleY}deg)`;
+                
+                if (btn.classList.contains('pixel-btn')) {
+                    btn.style.boxShadow = `8px 8px 0 rgba(138, 99, 255, 0.3)`;
+                } else {
+                    btn.style.boxShadow = `8px 8px 0 var(--shadow)`;
+                }
+            });
+            
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'translate(-3px, -3px)';
+                
+                if (btn.classList.contains('pixel-btn')) {
+                    btn.style.boxShadow = '8px 8px 0 rgba(138, 99, 255, 0.3)';
+                } else {
+                    btn.style.boxShadow = '5px 5px 0 var(--shadow)';
+                }
+            });
+            
+            btn.addEventListener('mousedown', () => {
+                btn.style.transform = 'translate(0, 0)';
+                
+                if (btn.classList.contains('pixel-btn')) {
+                    btn.style.boxShadow = '3px 3px 0 rgba(138, 99, 255, 0.2)';
+                } else {
+                    btn.style.boxShadow = '2px 2px 0 var(--shadow)';
+                }
+            });
+            
+            btn.addEventListener('mouseup', () => {
+                btn.style.transform = 'translate(-3px, -3px)';
+                
+                if (btn.classList.contains('pixel-btn')) {
+                    btn.style.boxShadow = '8px 8px 0 rgba(138, 99, 255, 0.3)';
+                } else {
+                    btn.style.boxShadow = '5px 5px 0 var(--shadow)';
+                }
+            });
+        });
+        
+        // 滚动动画
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        document.querySelectorAll('.card, header, .site-nav').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.5s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
