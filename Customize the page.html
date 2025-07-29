@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="这是一个待定制的专属页面，您可以联系我创建个性化内容">
+    <title>专属定制页面 | Tools World</title>
+    <style>
+        /* 继承主站的所有样式 */
+        :root {
+            /* 浅色模式变量 */
+            --bg-light: #f5f7ff;
+            --card-light: #ffffff;
+            --text-light: #333366;
+            --primary-light: #6e48aa;
+            --secondary-light: #9d50bb;
+            --accent-light: #4776e6;
+            --shadow-light: rgba(110, 72, 170, 0.1);
+            
+            /* 深色模式变量 */
+            --bg-dark: #1a1a2e;
+            --card-dark: #2a2a4a;
+            --text-dark: #e6e6ff;
+            --primary-dark: #8a63ff;
+            --secondary-dark: #6a4dff;
+            --accent-dark: #4d9bff;
+            --shadow-dark: rgba(0, 0, 0, 0.3);
+            
+            /* 当前模式变量 */
+            --bg: var(--bg-light);
+            --card: var(--card-light);
+            --text: var(--text-light);
+            --primary: var(--primary-light);
+            --secondary: var(--secondary-light);
+            --accent: var(--accent-light);
+            --shadow: var(--shadow-light);
+            
+            --pixel: 'Courier New', monospace;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        /* 深色模式 */
+        body.dark-mode {
+            --bg: var(--bg-dark);
+            --card: var(--card-dark);
+            --text: var(--text-dark);
+            --primary: var(--primary-dark);
+            --secondary: var(--secondary-dark);
+            --accent: var(--accent-dark);
+            --shadow: var(--shadow-dark);
+        }
+        
+        /* 维吾尔文模式 */
+        body.uyghur-mode {
+            direction: rtl;
+            font-family: 'Arial Unicode MS', 'Microsoft Sans Serif', sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: var(--transition);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 导航栏 */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            position: relative;
+            z-index: 100;
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            font-family: var(--pixel);
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            order: 1;
+        }
+        
+        .logo-icon {
+            width: 30px;
+            height: 30px;
+            background-color: var(--primary);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            order: 3;
+            width: 100%;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .nav-link {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: var(--transition);
+            opacity: 0.8;
+            font-size: 0.95rem;
+        }
+        
+        .nav-link:hover {
+            opacity: 1;
+            background-color: rgba(138, 99, 255, 0.1);
+        }
+        
+        /* 导航右侧区域 */
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            order: 2;
+        }
+        
+        /* 主题切换按钮 */
+        .theme-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--card);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .theme-icon {
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+        
+        .sun {
+            color: #ffcc00;
+            position: absolute;
+            transform: translateY(0);
+            opacity: 0;
+        }
+        
+        .moon {
+            color: #6a4dff;
+            position: absolute;
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        body.dark-mode .sun {
+            opacity: 1;
+        }
+        
+        body.dark-mode .moon {
+            opacity: 0;
+        }
+        
+        /* 语言切换 */
+        .language-switcher {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .language-btn {
+            background-color: var(--card);
+            color: var(--text);
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            box-shadow: 0 2px 5px var(--shadow);
+            transition: var(--transition);
+            font-size: 0.9rem;
+            height: 40px;
+        }
+        
+        .language-btn:hover {
+            background-color: rgba(138, 99, 255, 0.1);
+        }
+        
+        .language-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--card);
+            min-width: 120px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px var(--shadow);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: var(--transition);
+        }
+        
+        .language-switcher:hover .language-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .language-option {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .language-option:hover {
+            background-color: rgba(138, 99, 255, 0.1);
+            color: var(--primary);
+        }
+        
+        .language-option.active {
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        /* 头部内容 */
+        header {
+            text-align: center;
+            padding: 60px 0 40px;
+            position: relative;
+        }
+        
+        .avatar-container {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 30px;
+        }
+        
+        .avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            object-fit: cover;
+            border: 5px solid var(--card);
+            box-shadow: 0 15px 35px var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            z-index: 2;
+            background-color: var(--card);
+        }
+        
+        .avatar-shadow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            top: 8px;
+            left: 8px;
+            z-index: 1;
+            opacity: 0.7;
+            transition: var(--transition);
+        }
+        
+        .avatar-container:hover .avatar {
+            transform: translate(-5px, -5px);
+        }
+        
+        .avatar-container:hover .avatar-shadow {
+            transform: translate(5px, 5px);
+            opacity: 0.9;
+        }
+        
+        h1 {
+            font-family: var(--pixel);
+            font-size: 2.8rem;
+            margin: 20px 0 10px;
+            color: var(--text);
+            letter-spacing: 2px;
+            text-shadow: 3px 3px 0 var(--shadow);
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--text);
+            margin-bottom: 30px;
+            position: relative;
+            display: inline-block;
+            opacity: 0.8;
+        }
+        
+        .tagline::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+        
+        /* 卡片设计 */
+        .card {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 30px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 8px 8px 0 var(--shadow);
+            border: 1px solid rgba(138, 99, 255, 0.1);
+            max-width: 800px;
+            margin: 0 auto 50px;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(138, 99, 255, 0.05), rgba(106, 77, 255, 0.05));
+            z-index: 1;
+        }
+        
+        .card:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 12px 12px 0 rgba(138, 99, 255, 0.15);
+        }
+        
+        h2 {
+            font-family: var(--pixel);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--text);
+            position: relative;
+            display: inline-block;
+            z-index: 2;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+        
+        /* 像素按钮 */
+        .pixel-btn {
+            position: relative;
+            padding: 12px 30px;
+            background: var(--card);
+            color: var(--text);
+            border: 2px solid var(--primary);
+            font-family: var(--pixel);
+            letter-spacing: 1px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: var(--transition);
+            margin: 20px auto;
+            display: inline-block;
+            box-shadow: 5px 5px 0 var(--shadow);
+            z-index: 2;
+            text-decoration: none;
+        }
+        
+        .pixel-btn:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 8px 8px 0 rgba(138, 99, 255, 0.3);
+            color: var(--primary);
+        }
+        
+        .pixel-btn:active {
+            transform: translate(0, 0);
+            box-shadow: 3px 3px 0 var(--shadow);
+        }
+        
+        .pixel-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(138, 99, 255, 0.1), rgba(106, 77, 255, 0.1));
+            z-index: -1;
+        }
+        
+        /* 页脚 */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 50px;
+            border-top: 1px solid rgba(138, 99, 255, 0.1);
+            color: var(--text);
+            opacity: 0.7;
+        }
+        
+        /* 未定制内容样式 */
+        .empty-content {
+            text-align: center;
+            padding: 40px 0;
+        }
+        
+        .empty-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            opacity: 0.7;
+        }
+        
+        .empty-title {
+            font-family: var(--pixel);
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--text);
+        }
+        
+        .empty-description {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            color: var(--text);
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+        
+        /* 响应式设计 */
+        @media (min-width: 768px) {
+            .nav-links {
+                order: 2;
+                width: auto;
+                margin-top: 0;
+                margin-left: auto;
+                margin-right: 20px;
+            }
+            
+            .navbar-right {
+                order: 3;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .empty-icon {
+                font-size: 3.5rem;
+            }
+            
+            .empty-title {
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .language-dropdown {
+                left: 0;
+                right: auto;
+            }
+            
+            .nav-links {
+                gap: 10px;
+            }
+            
+            .nav-link {
+                padding: 6px 10px;
+                font-size: 0.85rem;
+            }
+            
+            .empty-icon {
+                font-size: 3rem;
+            }
+        }
+        
+        /* 维吾尔文样式调整 */
+        body.uyghur-mode .tagline::after,
+        body.uyghur-mode h2::after {
+            left: auto;
+            right: 0;
+        }
+        
+        body.uyghur-mode .empty-content {
+            direction: rtl;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">T</span>
+                <span class="logo-text">tools world</span>
+            </a>
+            
+            <div class="nav-links">
+                <a href="index.html" class="nav-link" data-lang-key="nav.home">首页</a>
+                <a href="#about" class="nav-link" data-lang-key="nav.about">关于</a>
+                <a href="#projects" class="nav-link" data-lang-key="nav.projects">作品</a>
+                <a href="#contact" class="nav-link" data-lang-key="nav.contact">联系</a>
+                <a href="Customize the page.html" class="nav-link" data-lang-key="nav.Page">专属定制</a>
+            </div>
+            
+            <div class="navbar-right">
+                <button class="theme-toggle" id="themeToggle">
+                    <span class="theme-icon sun">☀️</span>
+                    <span class="theme-icon moon">🌙</span>
+                </button>
+                
+                <div class="language-switcher">
+                    <button class="language-btn" id="languageBtn">
+                        <span class="language-flag">🇨🇳</span>
+                        <span class="language-code">CN</span>
+                    </button>
+                    <div class="language-dropdown">
+                        <div class="language-option active" data-lang="zh" data-lang-code="CN">
+                            <span class="language-flag">🇨🇳</span>
+                            <span data-lang-key="language.chinese">中文</span>
+                        </div>
+                        <div class="language-option" data-lang="en" data-lang-code="EN">
+                            <span class="language-flag">🇺🇸</span>
+                            <span data-lang-key="language.english">English</span>
+                        </div>
+                        <div class="language-option" data-lang="ug" data-lang-code="UG">
+                            <span class="language-flag">🇨🇳</span>
+                            <span data-lang-key="language.uyghur">ئۇيغۇرچە</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- 主要内容 -->
+        <main>
+            <div class="empty-content">
+                <div class="empty-icon">🛠️</div>
+                <h1 class="empty-title" data-lang-key="empty.title">专属页面待定制</h1>
+                <p class="empty-description" data-lang-key="empty.description">
+                    此页面还未被定制，暂无专属内容展示。您可以联系我创建个性化的专属页面，用于惊喜祝福、特殊纪念或任何您想要的用途。
+                </p>
+                
+                <div class="card">
+                    <h2 data-lang-key="empty.features">专属页面功能</h2>
+                    <ul style="text-align: left; margin-bottom: 20px; padding-left: 20px;">
+                        <li data-lang-key="empty.feature1">完全个性化的设计和内容</li>
+                        <li data-lang-key="empty.feature2">支持文字、图片、视频等多种媒体</li>
+                        <li data-lang-key="empty.feature3">可选择公开或加密保护</li>
+                        <li data-lang-key="empty.feature4">响应式设计，适配所有设备</li>
+                    </ul>
+                    
+                    <a href="https://qm.qq.com/q/SxW7aoFaIW" 
+                       class="pixel-btn" 
+                       data-lang-key="empty.contact"
+                       target="_blank" 
+                       rel="noopener noreferrer">
+                        联系我定制专属页面
+                    </a>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p data-lang-key="footer.copyright">© 2025 可乐科技 · 保留所有权利</p>
+            <p data-lang-key="footer.slogan">探索前所未有的奇妙工具</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 语言数据
+        const languageData = {
+            zh: {
+                "nav.home": "首页",
+                "nav.about": "关于",
+                "nav.projects": "作品",
+                "nav.contact": "联系",
+                "nav.Page": "专属定制",
+                "empty.title": "专属页面待定制",
+                "empty.description": "此页面还未被定制，暂无专属内容展示。您可以联系我创建个性化的专属页面，用于惊喜祝福、特殊纪念或任何您想要的用途。",
+                "empty.features": "专属页面功能",
+                "empty.feature1": "完全个性化的设计和内容",
+                "empty.feature2": "支持文字、图片、视频等多种媒体",
+                "empty.feature3": "可选择公开或加密保护",
+                "empty.feature4": "响应式设计，适配所有设备",
+                "empty.contact": "联系我定制专属页面",
+                "footer.copyright": "© 2025 可乐科技 · 保留所有权利",
+                "footer.slogan": "探索前所未有的奇妙工具",
+                "language.chinese": "中文",
+                "language.english": "English",
+                "language.uyghur": "ئۇيغۇرچە"
+            },
+            en: {
+                "nav.home": "Home",
+                "nav.about": "About",
+                "nav.projects": "Projects",
+                "nav.contact": "Contact",
+                "empty.title": "Custom Page Pending",
+                "empty.description": "This page has not been customized yet and has no exclusive content to display. You can contact me to create a personalized page for surprises, blessings, special commemorations or any purpose you want.",
+                "empty.features": "Exclusive Page Features",
+                "empty.feature1": "Fully personalized design and content",
+                "empty.feature2": "Support for text, images, videos and other media",
+                "empty.feature3": "Option for public or encrypted protection",
+                "empty.feature4": "Responsive design, adapts to all devices",
+                "empty.contact": "Contact me to customize",
+                "footer.copyright": "© 2025 Cola Technology · All rights reserved",
+                "footer.slogan": "Discover amazing tools like never before",
+                "language.chinese": "Chinese",
+                "language.english": "English",
+                "language.uyghur": "Uyghur"
+            },
+            ug: {
+                "nav.home": "باش بەت",
+                "nav.about": "ھەققىدە",
+                "nav.projects": "قوراللار",
+                "nav.contact": "ئالاقىلەش",
+                "empty.title": "خاس بەت تەييارلىنىۋاتىدۇ",
+                "empty.description": "بۇ بەت تېخى خاسلىشتۇرۇلمىغان، ھېچقانداق خاس مەزمۇن كۆرسىتىلمىگەن. سىز مېنىڭ بىلەن ئالاقىلىشىپ، خوشاللىق تەبرىك، ئالاھىدە خاتىرە ياكى خالىغان نەرسىڭىز ئۈچۈن شەخسىيلەشتۈرۈلگەن بەت قۇرالايسىز.",
+                "empty.features": "خاس بەت ئىقتىدارى",
+                "empty.feature1": "تولۇق شەخسىيلەشتۈرۈلگەن لايىھە ۋە مەزمۇن",
+                "empty.feature2": "تېكىست، رەسىم، ۋىدىئو قاتارلىق كۆپ خىل ۋاستىلارنى قوللايدۇ",
+                "empty.feature3": "ئاشكارە ياكى شىفىرلانغان قوغداشنى تاللىيالايسىز",
+                "empty.feature4": "جاۋاب بېرىشچان لايىھە، بارلىق قۇراللارغا ماسلىشىدۇ",
+                "empty.contact": "مەن بىلەن ئالاقىلىشىپ خاس بەت قۇرۇش",
+                "footer.copyright": "© 2025 كولا تېخنىكا · بارلىق ھوقۇق ساقلانغان",
+                "footer.slogan": "مىسلى كۆرۈلمىگەن ئاجايىپ قوراللار ئۈستىدە ئىزدىنىش",
+                "language.chinese": "خەنزۇچە",
+                "language.english": "ئىنگلىزچە",
+                "language.uyghur": "ئۇيغۇرچە"
+            }
+        };
+
+        // 昼夜模式切换
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        // 检查本地存储或系统偏好
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const currentTheme = localStorage.getItem('theme');
+        
+        if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
+            body.classList.add('dark-mode');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            // 保存用户选择
+            const theme = body.classList.contains('dark-mode') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+        });
+        
+        // 语言切换功能
+        const languageBtn = document.getElementById('languageBtn');
+        const languageOptions = document.querySelectorAll('.language-option');
+        let currentLanguage = localStorage.getItem('language') || 'zh';
+        
+        // 初始化语言
+        function setLanguage(lang) {
+            // 更新UI
+            document.querySelectorAll('.language-option').forEach(option => {
+                option.classList.remove('active');
+                if (option.dataset.lang === lang) {
+                    option.classList.add('active');
+                }
+            });
+            
+            // 更新按钮显示
+            const activeOption = document.querySelector(`.language-option[data-lang="${lang}"]`);
+            languageBtn.innerHTML = `
+                <span class="language-flag">${activeOption.querySelector('.language-flag').textContent}</span>
+                <span class="language-code">${activeOption.dataset.langCode}</span>
+            `;
+            
+            // 更新页面内容
+            document.querySelectorAll('[data-lang-key]').forEach(element => {
+                const key = element.getAttribute('data-lang-key');
+                if (languageData[lang] && languageData[lang][key]) {
+                    element.textContent = languageData[lang][key];
+                }
+            });
+            
+            // 更新body类
+            body.classList.remove('uyghur-mode');
+            if (lang === 'ug') {
+                body.classList.add('uyghur-mode');
+            }
+            
+            // 保存语言选择
+            localStorage.setItem('language', lang);
+            currentLanguage = lang;
+        }
+        
+        // 语言选项点击事件
+        languageOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                setLanguage(option.dataset.lang);
+            });
+        });
+        
+        // 初始化语言
+        setLanguage(currentLanguage);
+        
+        // 安全打开外部链接
+        document.querySelectorAll('a[target="_blank"]').forEach(link => {
+            if (!link.rel.includes('noopener')) {
+                link.rel += ' noopener noreferrer';
+            }
+        });
+    </script>
+</body>
+</html>
