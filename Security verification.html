@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="msvalidate.01" content="AB26BE720265C248482B421522DB535A" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Toolala专属页面制定隐私页面信息，可自定义用户名和密码，除了制定人之外，别人不可使用！">
+    <meta name="keywords" content="Toolala安全验证页面，用于验证专属页面，可指定人访问查看">
+    <link rel="shortcut icon" href="Toolala/assets/vico/main.ico" type="image/x-icon">
+    <link rel="canonical" href="https://colatools.cn/" />
+
+    <title data-lang-key="title">Toolala - 安全验证</title>
+    <style>
+        :root {
+            /* 浅色模式变量 */
+            --bg-light: #f5f7ff;
+            --card-light: #ffffff;
+            --text-light: #333366;
+            --primary-light: #6e48aa;
+            --secondary-light: #9d50bb;
+            --accent-light: #4776e6;
+            --shadow-light: rgba(110, 72, 170, 0.1);
+            
+            /* 深色模式变量 */
+            --bg-dark: #1a1a2e;
+            --card-dark: #2a2a4a;
+            --text-dark: #e6e6ff;
+            --primary-dark: #8a63ff;
+            --secondary-dark: #6a4dff;
+            --accent-dark: #4d9bff;
+            --shadow-dark: rgba(0, 0, 0, 0.3);
+            
+            /* 当前模式变量 */
+            --bg: var(--bg-light);
+            --card: var(--card-light);
+            --text: var(--text-light);
+            --primary: var(--primary-light);
+            --secondary: var(--secondary-light);
+            --accent: var(--accent-light);
+            --shadow: var(--shadow-light);
+            
+            --pixel: 'Courier New', monospace;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        /* 深色模式 */
+        body.dark-mode {
+            --bg: var(--bg-dark);
+            --card: var(--card-dark);
+            --text: var(--text-dark);
+            --primary: var(--primary-dark);
+            --secondary: var(--secondary-dark);
+            --accent: var(--accent-dark);
+            --shadow: var(--shadow-dark);
+        }
+        
+        /* 维吾尔文模式 */
+        body.uyghur-mode {
+            direction: rtl;
+            font-family: 'Arial Unicode MS', 'Microsoft Sans Serif', sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            transition: var(--transition);
+        }
+        
+        .container {
+            max-width: 500px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 卡片设计 */
+        .card {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 8px 8px 0 var(--shadow);
+            border: 1px solid rgba(138, 99, 255, 0.1);
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        h1 {
+            font-family: var(--pixel);
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: var(--text);
+        }
+        
+        /* 表单样式 */
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        
+        body.uyghur-mode .form-group {
+            text-align: right;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid rgba(138, 99, 255, 0.3);
+            border-radius: 10px;
+            background-color: var(--card);
+            color: var(--text);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(138, 99, 255, 0.2);
+        }
+        
+        /* 按钮样式 */
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: var(--transition);
+        }
+        
+        .submit-btn:hover {
+            background-color: var(--secondary);
+        }
+        
+        /* 错误提示 */
+        .error-message {
+            color: #ff4757;
+            margin-top: 5px;
+            font-size: 0.9rem;
+            display: none;
+        }
+        
+        /* 主题切换区域 */
+        .theme-toggle-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+        
+        /* 主题切换按钮 */
+        .theme-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--card);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .theme-icon {
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+        
+        .sun {
+            color: #ffcc00;
+            position: absolute;
+            transform: translateY(0);
+            opacity: 0;
+        }
+        
+        .moon {
+            color: #6a4dff;
+            position: absolute;
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        body.dark-mode .sun {
+            opacity: 1;
+        }
+        
+        body.dark-mode .moon {
+            opacity: 0;
+        }
+        
+        /* 语言切换 */
+        .language-switcher {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .language-btn {
+            background-color: var(--card);
+            color: var(--text);
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            box-shadow: 0 2px 5px var(--shadow);
+            transition: var(--transition);
+            font-size: 0.9rem;
+            height: 40px;
+        }
+        
+        .language-btn:hover {
+            background-color: rgba(138, 99, 255, 0.1);
+        }
+        
+        .language-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--card);
+            min-width: 120px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px var(--shadow);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: var(--transition);
+        }
+        
+        body.uyghur-mode .language-dropdown {
+            right: auto;
+            left: 0;
+        }
+        
+        .language-switcher:hover .language-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .language-option {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .language-option:hover {
+            background-color: rgba(138, 99, 255, 0.1);
+            color: var(--primary);
+        }
+        
+        .language-option.active {
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .card {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .card {
+                padding: 25px 15px;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .language-dropdown {
+                left: 0;
+                right: auto;
+            }
+            
+            body.uyghur-mode .language-dropdown {
+                left: auto;
+                right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 主题切换区域 -->
+    <div class="theme-toggle-container">
+        <button class="theme-toggle" id="themeToggle">
+            <span class="theme-icon sun">☀️</span>
+            <span class="theme-icon moon">🌙</span>
+        </button>
+        
+        <div class="language-switcher">
+            <button class="language-btn" id="languageBtn">
+                <span class="language-flag">🇨🇳</span>
+                <span class="language-code">CN</span>
+            </button>
+            <div class="language-dropdown">
+                <div class="language-option active" data-lang="zh" data-lang-code="CN">
+                    <span class="language-flag">🇨🇳</span>
+                    <span data-lang-key="language.chinese">中文</span>
+                </div>
+                <div class="language-option" data-lang="en" data-lang-code="EN">
+                    <span class="language-flag">🇺🇸</span>
+                    <span data-lang-key="language.english">English</span>
+                </div>
+                <div class="language-option" data-lang="ug" data-lang-code="UG">
+                    <span class="language-flag">🇨🇳</span>
+                    <span data-lang-key="language.uyghur">ئۇيغۇرچە</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="card">
+            <h1 data-lang-key="title">安全验证</h1>
+            
+            <form id="passwordForm">
+                <div class="form-group">
+                    <label for="username" data-lang-key="form.username">用户名</label>
+                    <input type="text" id="username" class="form-control" autocomplete="username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password" data-lang-key="form.password">密码</label>
+                    <input type="password" id="password" class="form-control" autocomplete="current-password" required>
+                    <div class="error-message" id="errorMessage" data-lang-key="error.invalid">用户名或密码错误，重新输入</div>
+                </div>
+                
+                <button type="submit" class="submit-btn" data-lang-key="form.submit">立即进入</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // 语言数据
+        const languageData = {
+            zh: {
+                "title": "Toolala - 安全验证",
+                "form.username": "用户名",
+                "form.password": "密码",
+                "form.submit": "立即进入",
+                "error.invalid": "用户名或密码错误，重新输入",
+                "language.chinese": "中文",
+                "language.english": "English",
+                "language.uyghur": "ئۇيغۇرچە"
+            },
+            en: {
+                "title": "Toolala - Security Verification",
+                "form.username": "Username",
+                "form.password": "Password",
+                "form.submit": "Enter Now",
+                "error.invalid": "Invalid username or password, please try again",
+                "language.chinese": "Chinese",
+                "language.english": "English",
+                "language.uyghur": "Uyghur"
+            },
+            ug: {
+                "title": "Toolala - بىخەتەرلىك دەلىللەش",
+                "form.username": "ئىشلەتكۈچى ئىسمى",
+                "form.password": "مەخپى نومۇر",
+                "form.submit": "دەرھال كىرىڭ",
+                "error.invalid": "ئىشلەتكۈچى ئىسمى ياكى مەخپى نومۇر خاتا، قايتا سىناڭ",
+                "language.chinese": "خەنزۇچە",
+                "language.english": "ئىنگلىزچە",
+                "language.uyghur": "ئۇيغۇرچە"
+            }
+        };
+
+        // 昼夜模式切换
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        // 检查本地存储或系统偏好
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const currentTheme = localStorage.getItem('theme');
+        
+        if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
+            body.classList.add('dark-mode');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            // 保存用户选择
+            const theme = body.classList.contains('dark-mode') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+        });
+        
+        // 语言切换功能
+        const languageBtn = document.getElementById('languageBtn');
+        const languageOptions = document.querySelectorAll('.language-option');
+        let currentLanguage = localStorage.getItem('language') || 'zh';
+        
+        // 初始化语言
+        function setLanguage(lang) {
+            // 更新UI
+            document.querySelectorAll('.language-option').forEach(option => {
+                option.classList.remove('active');
+                if (option.dataset.lang === lang) {
+                    option.classList.add('active');
+                }
+            });
+            
+            // 更新按钮显示
+            const activeOption = document.querySelector(`.language-option[data-lang="${lang}"]`);
+            languageBtn.innerHTML = `
+                <span class="language-flag">${activeOption.querySelector('.language-flag').textContent}</span>
+                <span class="language-code">${activeOption.dataset.langCode}</span>
+            `;
+            
+            // 更新页面内容
+            document.querySelectorAll('[data-lang-key]').forEach(element => {
+                const key = element.getAttribute('data-lang-key');
+                if (languageData[lang] && languageData[lang][key]) {
+                    element.textContent = languageData[lang][key];
+                }
+            });
+            
+            // 更新body类
+            body.classList.remove('uyghur-mode');
+            if (lang === 'ug') {
+                body.classList.add('uyghur-mode');
+            }
+            
+            // 保存语言选择
+            localStorage.setItem('language', lang);
+            currentLanguage = lang;
+        }
+        
+        // 语言选项点击事件
+        languageOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                setLanguage(option.dataset.lang);
+            });
+        });
+        
+        // 初始化语言
+        setLanguage(currentLanguage);
+        
+        // 密码验证功能
+        const passwordForm = document.getElementById('passwordForm');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const errorMessage = document.getElementById('errorMessage');
+        
+
+        async function sha256(message) {
+
+            const encoder = new TextEncoder();
+            const data = encoder.encode(message);
+            
+  
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            
+
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            
+            return hashHex;
+        }
+        
+        const CORRECT_USERNAME_HASH = "da844f9b5c4f7f34d06d89f318da3713e711bf9f45d4e3b1392b0533e3d379e5"; 
+        const CORRECT_PASSWORD_HASH = "4f9f10b304cfe9b2b11fcb1387f694e18f08ea358c7e9f567434d3ad6cbd7fc4"; 
+
+        const TARGET_URL = "https://example.com"; 
+        
+        passwordForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // 隐藏错误信息
+            errorMessage.style.display = 'none';
+            
+            try {
+                // 显示加载状态
+                const submitBtn = passwordForm.querySelector('button[type="submit"]');
+                const originalBtnText = submitBtn.textContent;
+                submitBtn.disabled = true;
+                
+                // 根据当前语言设置加载文本
+                if (currentLanguage === 'zh') {
+                    submitBtn.textContent = '验证中...';
+                } else if (currentLanguage === 'en') {
+                    submitBtn.textContent = 'Verifying...';
+                } else if (currentLanguage === 'ug') {
+                    submitBtn.textContent = 'دەلىللەۋاتىدۇ...';
+                }
+                
+                // 计算输入的用户名和密码
+                const usernameHash = await sha256(usernameInput.value.trim());
+                const passwordHash = await sha256(passwordInput.value.trim());
+                
+
+                if (usernameHash === CORRECT_USERNAME_HASH && passwordHash === CORRECT_PASSWORD_HASH) {
+                    // 验证成功，跳转到目标URL
+                    window.location.href = TARGET_URL;
+                } else {
+                    // 验证失败，显示错误
+                    errorMessage.style.display = 'block';
+                    // 清空输入框
+                    usernameInput.value = '';
+                    passwordInput.value = '';
+                    usernameInput.focus();
+                }
+            } catch (error) {
+                console.error('密码错误:', error);
+                errorMessage.style.display = 'block';
+            } finally {
+                // 恢复按钮状态
+                const submitBtn = passwordForm.querySelector('button[type="submit"]');
+                submitBtn.disabled = false;
+                submitBtn.textContent = languageData[currentLanguage]["form.submit"];
+            }
+        });
+        
+        // 输入时隐藏错误信息
+        usernameInput.addEventListener('input', () => {
+            errorMessage.style.display = 'none';
+        });
+        
+        passwordInput.addEventListener('input', () => {
+            errorMessage.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
