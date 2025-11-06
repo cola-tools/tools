@@ -399,16 +399,34 @@
         }
         
         /* 团队介绍样式 */
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
+        /* 队长样式 - 单独居中 */
+        .captain-card {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            background-color: var(--card);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 20px var(--shadow);
+            border: 1px solid rgba(138, 99, 255, 0.2);
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+        
+        /* 队员样式 - 一行三个 */
+        .members-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 25px;
             margin-bottom: 60px;
             position: relative;
             z-index: 2;
+            flex-wrap: wrap;
         }
         
         .team-member {
+            flex: 1;
+            min-width: 280px;
             background-color: var(--card);
             border-radius: 15px;
             padding: 25px;
@@ -450,6 +468,7 @@
         .member-bio, .member-skills {
             margin-bottom: 15px;
             line-height: 1.7;
+            text-align: left;
         }
         
         .skills-list {
@@ -467,35 +486,129 @@
             font-size: 0.8rem;
         }
         
-        .team-achievements, .team-projects {
-            margin-top: 40px;
+        /* 团队成就 */
+        .team-achievements {
+            margin-bottom: 60px;
             position: relative;
             z-index: 2;
         }
         
-        .achievements-list, .projects-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
+        .achievements-content {
+            background-color: rgba(138, 99, 255, 0.05);
+            padding: 30px;
+            border-radius: 15px;
+            line-height: 1.8;
         }
         
-        .achievement-item, .project-item {
-            background-color: rgba(138, 99, 255, 0.05);
-            padding: 20px;
-            border-radius: 12px;
-            border-left: 3px solid var(--primary);
+        .achievement-item {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(138, 99, 255, 0.1);
+        }
+        
+        .achievement-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
         }
         
         .item-title {
             font-weight: bold;
             margin-bottom: 8px;
             color: var(--primary);
+            font-size: 1.1rem;
         }
         
         .item-desc {
             opacity: 0.9;
             line-height: 1.6;
+        }
+        
+        /* 团队项目 - 带翻页功能 */
+        .team-projects {
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .projects-container {
+            position: relative;
+            overflow: hidden;
+            margin: 30px 0;
+        }
+        
+        .projects-wrapper {
+            display: flex;
+            transition: transform 0.5s ease;
+            gap: 25px;
+        }
+        
+        .project-item {
+            min-width: calc(100% - 0px); /* 一行一个项目，占满宽度 */
+            background-color: rgba(138, 99, 255, 0.05);
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 3px solid var(--primary);
+        }
+        
+        /* 翻页按钮 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .page-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: var(--card);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            box-shadow: 0 3px 8px var(--shadow);
+        }
+        
+        .page-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .page-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 5px 15px rgba(138, 99, 255, 0.3);
+        }
+        
+        .page-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text);
+            opacity: 0.8;
+        }
+        
+        .page-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(138, 99, 255, 0.2);
+            transition: var(--transition);
+        }
+        
+        .page-dot.active {
+            background-color: var(--primary);
+            width: 12px;
+            height: 12px;
         }
         
         /* 响应式设计 */
@@ -513,17 +626,46 @@
             }
         }
         
+        @media (max-width: 992px) {
+            .members-row {
+                gap: 20px;
+            }
+            
+            .team-member {
+                min-width: 240px;
+            }
+        }
+        
         @media (max-width: 768px) {
             h1 {
                 font-size: 2rem;
             }
             
-            .team-grid {
+            .card {
+                padding: 20px;
+            }
+            
+            .captain-card {
+                padding: 25px 20px;
+            }
+            
+            .members-row {
+                flex-direction: column;
                 gap: 20px;
             }
             
-            .achievements-list, .projects-list {
-                gap: 15px;
+            .team-member {
+                min-width: 100%;
+            }
+            
+            .achievements-content, .project-item {
+                padding: 20px;
+            }
+            
+            .page-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
             }
         }
         
@@ -542,12 +684,12 @@
                 font-size: 0.85rem;
             }
             
-            .card {
-                padding: 20px;
+            .tagline {
+                font-size: 1rem;
             }
             
-            .team-member {
-                padding: 20px;
+            .item-title {
+                font-size: 1rem;
             }
         }
         
@@ -563,6 +705,15 @@
         body.uyghur-mode .achievement-item,
         body.uyghur-mode .project-item {
             direction: rtl;
+        }
+        
+        body.uyghur-mode .captain-card {
+            text-align: right;
+        }
+        
+        body.uyghur-mode .member-bio,
+        body.uyghur-mode .member-skills {
+            text-align: right;
         }
         
         body.uyghur-mode .achievement-item,
@@ -621,33 +772,34 @@
             
             <!-- 团队成员卡片 -->
             <div class="card">
-                <h2 data-lang-key="team.members">团队成员</h2>
-                
-                <!-- 团队网格布局 -->
-                <div class="team-grid">
-                    <!-- 团队队长 -->
-                    <div class="team-member">
-                        <span class="member-role" data-lang-key="team.captain">团队队长</span>
-                        <h3 class="member-name" data-lang-key="team.captain.name">张明</h3>
-                        <p class="member-title" data-lang-key="team.captain.title">技术总监</p>
-                        <p class="member-bio" data-lang-key="team.captain.bio">10年+软件开发与团队管理经验，专注于分布式系统架构设计，曾主导多个大型项目从0到1落地，具备丰富的技术决策和团队协作经验。</p>
-                        <div class="member-skills">
-                            <strong data-lang-key="team.skills">核心技能：</strong>
-                            <div class="skills-list">
-                                <span class="skill-tag" data-lang-key="team.skill1">架构设计</span>
-                                <span class="skill-tag" data-lang-key="team.skill2">分布式系统</span>
-                                <span class="skill-tag" data-lang-key="team.skill3">团队管理</span>
-                                <span class="skill-tag" data-lang-key="team.skill4">技术决策</span>
-                            </div>
+                <!-- 团队队长 - 单独居中 -->
+                <h2 data-lang-key="team.captain.section">团队队长</h2>
+                <div class="captain-card">
+                    <span class="member-role" data-lang-key="team.captain">团队队长</span>
+                    <h3 class="member-name" data-lang-key="team.captain.name">张明</h3>
+                    <p class="member-title" data-lang-key="team.captain.title">技术总监</p>
+                    <p class="member-bio" data-lang-key="team.captain.bio">10年+软件开发与团队管理经验，专注于分布式系统架构设计，曾主导多个大型项目从0到1落地，具备丰富的技术决策和团队协作经验。擅长带领团队攻克技术难题，推动产品迭代升级，注重技术创新与业务价值的结合。</p>
+                    <div class="member-skills">
+                        <strong data-lang-key="team.skills">核心技能：</strong>
+                        <div class="skills-list">
+                            <span class="skill-tag" data-lang-key="team.skill1">架构设计</span>
+                            <span class="skill-tag" data-lang-key="team.skill2">分布式系统</span>
+                            <span class="skill-tag" data-lang-key="team.skill3">团队管理</span>
+                            <span class="skill-tag" data-lang-key="team.skill4">技术决策</span>
+                            <span class="skill-tag" data-lang-key="team.skill17">产品规划</span>
                         </div>
                     </div>
-                    
+                </div>
+                
+                <!-- 团队成员 - 一行三个 -->
+                <h2 data-lang-key="team.members" style="margin-top: 60px;">核心成员</h2>
+                <div class="members-row">
                     <!-- 团队成员1 -->
                     <div class="team-member">
                         <span class="member-role" data-lang-key="team.member">团队成员</span>
                         <h3 class="member-name" data-lang-key="team.member1.name">李华</h3>
                         <p class="member-title" data-lang-key="team.member1.title">高级后端工程师</p>
-                        <p class="member-bio" data-lang-key="team.member1.bio">5年后端开发经验，精通Java、Python等编程语言，擅长高并发系统开发和性能优化，参与多个核心业务系统的设计与实现。</p>
+                        <p class="member-bio" data-lang-key="team.member1.bio">5年后端开发经验，精通Java、Python等编程语言，擅长高并发系统开发和性能优化，参与多个核心业务系统的设计与实现。具备扎实的技术功底和问题排查能力，致力于打造稳定高效的后端服务。</p>
                         <div class="member-skills">
                             <strong data-lang-key="team.skills">核心技能：</strong>
                             <div class="skills-list">
@@ -664,7 +816,7 @@
                         <span class="member-role" data-lang-key="team.member">团队成员</span>
                         <h3 class="member-name" data-lang-key="team.member2.name">王芳</h3>
                         <p class="member-title" data-lang-key="team.member2.title">前端技术专家</p>
-                        <p class="member-bio" data-lang-key="team.member2.bio">6年前端开发经验，精通Vue、React等框架，专注于用户体验优化和响应式设计，具备丰富的大型项目前端架构设计经验。</p>
+                        <p class="member-bio" data-lang-key="team.member2.bio">6年前端开发经验，精通Vue、React等框架，专注于用户体验优化和响应式设计，具备丰富的大型项目前端架构设计经验。擅长将复杂的业务逻辑转化为简洁易用的界面，注重代码质量和用户体验的平衡。</p>
                         <div class="member-skills">
                             <strong data-lang-key="team.skills">核心技能：</strong>
                             <div class="skills-list">
@@ -681,7 +833,7 @@
                         <span class="member-role" data-lang-key="team.member">团队成员</span>
                         <h3 class="member-name" data-lang-key="team.member3.name">赵强</h3>
                         <p class="member-title" data-lang-key="team.member3.title">数据工程师</p>
-                        <p class="member-bio" data-lang-key="team.member3.bio">4年数据处理与分析经验，精通Hadoop、Spark等大数据技术栈，擅长数据建模和ETL开发，为业务决策提供数据支持。</p>
+                        <p class="member-bio" data-lang-key="team.member3.bio">4年数据处理与分析经验，精通Hadoop、Spark等大数据技术栈，擅长数据建模和ETL开发，为业务决策提供数据支持。具备丰富的数据分析和可视化经验，能够从海量数据中挖掘业务价值，助力数据驱动决策。</p>
                         <div class="member-skills">
                             <strong data-lang-key="team.skills">核心技能：</strong>
                             <div class="skills-list">
@@ -697,38 +849,64 @@
                 <!-- 团队成就 -->
                 <div class="team-achievements">
                     <h2 data-lang-key="team.achievements">团队成就</h2>
-                    <div class="achievements-list">
+                    <div class="achievements-content">
                         <div class="achievement-item">
                             <h3 class="item-title" data-lang-key="team.achievement1.title">国家级技术创新奖</h3>
-                            <p class="item-desc" data-lang-key="team.achievement1.desc">主导开发的分布式存储系统荣获2024年国家级技术创新二等奖，相关技术已申请3项发明专利。</p>
+                            <p class="item-desc" data-lang-key="team.achievement1.desc">主导开发的分布式存储系统荣获2024年国家级技术创新二等奖，相关技术已申请3项发明专利。该系统解决了海量数据存储的高可靠、高扩展、低成本难题，达到国内领先水平，已在多个行业大规模应用。</p>
                         </div>
                         <div class="achievement-item">
                             <h3 class="item-title" data-lang-key="team.achievement2.title">行业标杆项目</h3>
-                            <p class="item-desc" data-lang-key="team.achievement2.desc">参与开发的智慧政务平台服务全国10+省市，累计处理业务量超1亿次，系统可用性达99.99%。</p>
+                            <p class="item-desc" data-lang-key="team.achievement2.desc">参与开发的智慧政务平台服务全国10+省市，累计处理业务量超1亿次，系统可用性达99.99%。平台整合了政务服务、数据共享、监管执法等功能，极大提升了政府办事效率，获得多个省市的表彰和推广。</p>
                         </div>
                         <div class="achievement-item">
                             <h3 class="item-title" data-lang-key="team.achievement3.title">技术社区贡献</h3>
-                            <p class="item-desc" data-lang-key="team.achievement3.desc">团队成员在GitHub开源多个技术组件，累计获得1000+ Star，参与编写3本技术书籍和10+行业技术白皮书。</p>
+                            <p class="item-desc" data-lang-key="team.achievement3.desc">团队成员在GitHub开源多个技术组件，累计获得1000+ Star，参与编写3本技术书籍和10+行业技术白皮书。积极参与技术交流活动，分享实战经验，为行业技术发展做出积极贡献，提升了团队在行业内的影响力。</p>
                         </div>
                     </div>
                 </div>
                 
-                <!-- 团队项目 -->
+                <!-- 团队项目 - 带翻页功能 -->
                 <div class="team-projects">
                     <h2 data-lang-key="team.projects">代表项目</h2>
-                    <div class="projects-list">
-                        <div class="project-item">
-                            <h3 class="item-title" data-lang-key="team.project1.title">分布式海量数据存储平台</h3>
-                            <p class="item-desc" data-lang-key="team.project1.desc">支持PB级数据存储与管理，具备高可靠、高扩展、低成本特性，已应用于金融、医疗等多个行业，服务500+企业客户。</p>
+                    
+                    <div class="projects-container">
+                        <div class="projects-wrapper" id="projectsWrapper">
+                            <!-- 项目1 -->
+                            <div class="project-item">
+                                <h3 class="item-title" data-lang-key="team.project1.title">分布式海量数据存储平台</h3>
+                                <p class="item-desc" data-lang-key="team.project1.desc">支持PB级数据存储与管理，具备高可靠、高扩展、低成本特性，已应用于金融、医疗等多个行业，服务500+企业客户。平台采用分布式架构设计，支持数据多副本存储和动态扩容，提供数据备份、恢复、监控等一站式服务，解决了传统存储系统的性能瓶颈和扩展难题。系统响应时间小于100ms，数据可靠性达99.999%，帮助客户降低存储成本30%以上。</p>
+                            </div>
+                            
+                            <!-- 项目2 -->
+                            <div class="project-item">
+                                <h3 class="item-title" data-lang-key="team.project2.title">智慧城市运营管理系统</h3>
+                                <p class="item-desc" data-lang-key="team.project2.desc">整合物联网、大数据、AI技术，实现城市交通、环保、安防等多领域的智能管理，已在3个省会城市落地应用。系统通过部署在城市各个角落的传感器采集实时数据，利用AI算法进行数据分析和预测，为城市管理者提供决策支持。功能涵盖交通流量调度、空气质量监测、智能安防预警、公共设施管理等，帮助城市提升管理效率，改善居民生活质量，相关城市的交通拥堵指数下降20%，环境空气质量优良率提升15%。</p>
+                            </div>
+                            
+                            <!-- 项目3 -->
+                            <div class="project-item">
+                                <h3 class="item-title" data-lang-key="team.project3.title">企业级AI智能分析平台</h3>
+                                <p class="item-desc" data-lang-key="team.project3.desc">提供数据采集、分析、可视化一站式服务，内置10+行业算法模型，帮助企业实现数据驱动决策，已服务200+中大型企业。平台支持多源数据接入，包括结构化、半结构化和非结构化数据，提供拖拽式数据分析工具和丰富的可视化图表，无需专业技术人员即可完成数据分析工作。内置的行业算法模型涵盖用户画像、精准营销、风险控制、供应链优化等场景，帮助企业提升运营效率，降低运营成本，平均为客户提升业务收入15-20%。</p>
+                            </div>
+                            
+                            <!-- 项目4 - 新增项目，触发翻页 -->
+                            <div class="project-item">
+                                <h3 class="item-title" data-lang-key="team.project4.title">工业互联网智能监控平台</h3>
+                                <p class="item-desc" data-lang-key="team.project4.desc">面向制造业企业提供设备监控、故障预警、生产优化等服务，已应用于汽车、电子、机械等多个制造行业。平台通过工业传感器实时采集设备运行数据，利用边缘计算和云计算相结合的方式进行数据处理，实现设备状态实时监控、故障提前预警、生产过程优化等功能。系统能够提前预测设备故障，平均故障预警准确率达92%，帮助企业减少设备停机时间40%以上，提升生产效率15%，降低维护成本25%。平台支持多工厂、多设备统一管理，已服务50+大型制造企业，获得客户高度认可。</p>
+                            </div>
                         </div>
-                        <div class="project-item">
-                            <h3 class="item-title" data-lang-key="team.project2.title">智慧城市运营管理系统</h3>
-                            <p class="item-desc" data-lang-key="team.project2.desc">整合物联网、大数据、AI技术，实现城市交通、环保、安防等多领域的智能管理，已在3个省会城市落地应用。</p>
+                    </div>
+                    
+                    <!-- 翻页控制 -->
+                    <div class="pagination">
+                        <button class="page-btn" id="prevBtn" disabled>←</button>
+                        <div class="page-indicator" id="pageIndicator">
+                            <span class="page-dot active"></span>
+                            <span class="page-dot"></span>
+                            <span class="page-dot"></span>
+                            <span class="page-dot"></span>
                         </div>
-                        <div class="project-item">
-                            <h3 class="item-title" data-lang-key="team.project3.title">企业级AI智能分析平台</h3>
-                            <p class="item-desc" data-lang-key="team.project3.desc">提供数据采集、分析、可视化一站式服务，内置10+行业算法模型，帮助企业实现数据驱动决策，已服务200+中大型企业。</p>
-                        </div>
+                        <button class="page-btn" id="nextBtn">→</button>
                     </div>
                 </div>
             </div>
@@ -759,21 +937,22 @@
                 "nav.team": "团队介绍",
                 "team.title": "创新技术团队",
                 "team.slogan": "以技术驱动创新，以协作成就卓越",
-                "team.members": "团队成员",
+                "team.captain.section": "团队队长",
                 "team.captain": "团队队长",
                 "team.captain.name": "张明",
                 "team.captain.title": "技术总监",
-                "team.captain.bio": "10年+软件开发与团队管理经验，专注于分布式系统架构设计，曾主导多个大型项目从0到1落地，具备丰富的技术决策和团队协作经验。",
+                "team.captain.bio": "10年+软件开发与团队管理经验，专注于分布式系统架构设计，曾主导多个大型项目从0到1落地，具备丰富的技术决策和团队协作经验。擅长带领团队攻克技术难题，推动产品迭代升级，注重技术创新与业务价值的结合。",
+                "team.members": "核心成员",
                 "team.member": "团队成员",
                 "team.member1.name": "李华",
                 "team.member1.title": "高级后端工程师",
-                "team.member1.bio": "5年后端开发经验，精通Java、Python等编程语言，擅长高并发系统开发和性能优化，参与多个核心业务系统的设计与实现。",
+                "team.member1.bio": "5年后端开发经验，精通Java、Python等编程语言，擅长高并发系统开发和性能优化，参与多个核心业务系统的设计与实现。具备扎实的技术功底和问题排查能力，致力于打造稳定高效的后端服务。",
                 "team.member2.name": "王芳",
                 "team.member2.title": "前端技术专家",
-                "team.member2.bio": "6年前端开发经验，精通Vue、React等框架，专注于用户体验优化和响应式设计，具备丰富的大型项目前端架构设计经验。",
+                "team.member2.bio": "6年前端开发经验，精通Vue、React等框架，专注于用户体验优化和响应式设计，具备丰富的大型项目前端架构设计经验。擅长将复杂的业务逻辑转化为简洁易用的界面，注重代码质量和用户体验的平衡。",
                 "team.member3.name": "赵强",
                 "team.member3.title": "数据工程师",
-                "team.member3.bio": "4年数据处理与分析经验，精通Hadoop、Spark等大数据技术栈，擅长数据建模和ETL开发，为业务决策提供数据支持。",
+                "team.member3.bio": "4年数据处理与分析经验，精通Hadoop、Spark等大数据技术栈，擅长数据建模和ETL开发，为业务决策提供数据支持。具备丰富的数据分析和可视化经验，能够从海量数据中挖掘业务价值，助力数据驱动决策。",
                 "team.skills": "核心技能：",
                 "team.skill1": "架构设计",
                 "team.skill2": "分布式系统",
@@ -791,20 +970,23 @@
                 "team.skill14": "数据建模",
                 "team.skill15": "ETL开发",
                 "team.skill16": "数据分析",
+                "team.skill17": "产品规划",
                 "team.achievements": "团队成就",
                 "team.achievement1.title": "国家级技术创新奖",
-                "team.achievement1.desc": "主导开发的分布式存储系统荣获2024年国家级技术创新二等奖，相关技术已申请3项发明专利。",
+                "team.achievement1.desc": "主导开发的分布式存储系统荣获2024年国家级技术创新二等奖，相关技术已申请3项发明专利。该系统解决了海量数据存储的高可靠、高扩展、低成本难题，达到国内领先水平，已在多个行业大规模应用。",
                 "team.achievement2.title": "行业标杆项目",
-                "team.achievement2.desc": "参与开发的智慧政务平台服务全国10+省市，累计处理业务量超1亿次，系统可用性达99.99%。",
+                "team.achievement2.desc": "参与开发的智慧政务平台服务全国10+省市，累计处理业务量超1亿次，系统可用性达99.99%。平台整合了政务服务、数据共享、监管执法等功能，极大提升了政府办事效率，获得多个省市的表彰和推广。",
                 "team.achievement3.title": "技术社区贡献",
-                "team.achievement3.desc": "团队成员在GitHub开源多个技术组件，累计获得1000+ Star，参与编写3本技术书籍和10+行业技术白皮书。",
+                "team.achievement3.desc": "团队成员在GitHub开源多个技术组件，累计获得1000+ Star，参与编写3本技术书籍和10+行业技术白皮书。积极参与技术交流活动，分享实战经验，为行业技术发展做出积极贡献，提升了团队在行业内的影响力。",
                 "team.projects": "代表项目",
                 "team.project1.title": "分布式海量数据存储平台",
-                "team.project1.desc": "支持PB级数据存储与管理，具备高可靠、高扩展、低成本特性，已应用于金融、医疗等多个行业，服务500+企业客户。",
+                "team.project1.desc": "支持PB级数据存储与管理，具备高可靠、高扩展、低成本特性，已应用于金融、医疗等多个行业，服务500+企业客户。平台采用分布式架构设计，支持数据多副本存储和动态扩容，提供数据备份、恢复、监控等一站式服务，解决了传统存储系统的性能瓶颈和扩展难题。系统响应时间小于100ms，数据可靠性达99.999%，帮助客户降低存储成本30%以上。",
                 "team.project2.title": "智慧城市运营管理系统",
-                "team.project2.desc": "整合物联网、大数据、AI技术，实现城市交通、环保、安防等多领域的智能管理，已在3个省会城市落地应用。",
+                "team.project2.desc": "整合物联网、大数据、AI技术，实现城市交通、环保、安防等多领域的智能管理，已在3个省会城市落地应用。系统通过部署在城市各个角落的传感器采集实时数据，利用AI算法进行数据分析和预测，为城市管理者提供决策支持。功能涵盖交通流量调度、空气质量监测、智能安防预警、公共设施管理等，帮助城市提升管理效率，改善居民生活质量，相关城市的交通拥堵指数下降20%，环境空气质量优良率提升15%。",
                 "team.project3.title": "企业级AI智能分析平台",
-                "team.project3.desc": "提供数据采集、分析、可视化一站式服务，内置10+行业算法模型，帮助企业实现数据驱动决策，已服务200+中大型企业。",
+                "team.project3.desc": "提供数据采集、分析、可视化一站式服务，内置10+行业算法模型，帮助企业实现数据驱动决策，已服务200+中大型企业。平台支持多源数据接入，包括结构化、半结构化和非结构化数据，提供拖拽式数据分析工具和丰富的可视化图表，无需专业技术人员即可完成数据分析工作。内置的行业算法模型涵盖用户画像、精准营销、风险控制、供应链优化等场景，帮助企业提升运营效率，降低运营成本，平均为客户提升业务收入15-20%。",
+                "team.project4.title": "工业互联网智能监控平台",
+                "team.project4.desc": "面向制造业企业提供设备监控、故障预警、生产优化等服务，已应用于汽车、电子、机械等多个制造行业。平台通过工业传感器实时采集设备运行数据，利用边缘计算和云计算相结合的方式进行数据处理，实现设备状态实时监控、故障提前预警、生产过程优化等功能。系统能够提前预测设备故障，平均故障预警准确率达92%，帮助企业减少设备停机时间40%以上，提升生产效率15%，降低维护成本25%。平台支持多工厂、多设备统一管理，已服务50+大型制造企业，获得客户高度认可。",
                 "team.contact": "联系团队合作",
                 "footer.copyright": "© 2025 可乐科技 · 保留所有权利",
                 "footer.slogan": "探索前所未有的奇妙工具",
