@@ -2,11 +2,11 @@
 <html lang="zh-CN">
 <meta charset="UTF-8">
     <meta name="msvalidate.01" content="AB26BE720265C248482B421522DB535A" />
-    <meta name="description" content="这是一个待定制的专属页面，您可以联系我创建个性化内容">
+    <meta name="description" content="团队介绍页面 - 展示团队成员、技能及项目成就" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="Toolala/assets/vico/main.ico" type="image/x-icon">
     <link rel="canonical" href="https://colatools.cn/" />
-    <title>Tools World - 专属定制页面 | Toolala工具站</title>
+    <title>团队介绍 | Tools World - 专属定制页面</title>
     <style>
         /* 继承主站的所有样式 */
         :root {
@@ -266,48 +266,6 @@
             position: relative;
         }
         
-        .avatar-container {
-            position: relative;
-            width: 180px;
-            height: 180px;
-            margin: 0 auto 30px;
-        }
-        
-        .avatar {
-            width: 100%;
-            height: 100%;
-            border-radius: 20px;
-            object-fit: cover;
-            border: 5px solid var(--card);
-            box-shadow: 0 15px 35px var(--shadow);
-            transition: var(--transition);
-            position: relative;
-            z-index: 2;
-            background-color: var(--card);
-        }
-        
-        .avatar-shadow {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 20px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            top: 8px;
-            left: 8px;
-            z-index: 1;
-            opacity: 0.7;
-            transition: var(--transition);
-        }
-        
-        .avatar-container:hover .avatar {
-            transform: translate(-5px, -5px);
-        }
-        
-        .avatar-container:hover .avatar-shadow {
-            transform: translate(5px, 5px);
-            opacity: 0.9;
-        }
-        
         h1 {
             font-family: var(--pixel);
             font-size: 2.8rem;
@@ -348,7 +306,7 @@
             overflow: hidden;
             box-shadow: 8px 8px 0 var(--shadow);
             border: 1px solid rgba(138, 99, 255, 0.1);
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto 50px;
         }
         
@@ -440,31 +398,103 @@
             opacity: 0.7;
         }
         
-        /* 未定制内容样式 */
-        .empty-content {
-            text-align: center;
-            padding: 40px 0;
+        /* 团队介绍样式 */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+            position: relative;
+            z-index: 2;
         }
         
-        .empty-icon {
-            font-size: 5rem;
-            margin-bottom: 20px;
+        .team-member {
+            background-color: var(--card);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px var(--shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(138, 99, 255, 0.1);
+        }
+        
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(138, 99, 255, 0.15);
+        }
+        
+        .member-role {
+            display: inline-block;
+            padding: 5px 12px;
+            background-color: rgba(138, 99, 255, 0.1);
             color: var(--primary);
-            opacity: 0.7;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 10px;
         }
         
-        .empty-title {
-            font-family: var(--pixel);
-            font-size: 2rem;
-            margin-bottom: 20px;
+        .member-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 8px;
             color: var(--text);
         }
         
-        .empty-description {
-            max-width: 600px;
-            margin: 0 auto 30px;
+        .member-title {
+            font-size: 1rem;
             color: var(--text);
             opacity: 0.8;
+            margin-bottom: 15px;
+        }
+        
+        .member-bio, .member-skills {
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+        
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        
+        .skill-tag {
+            padding: 4px 10px;
+            background-color: rgba(77, 155, 255, 0.1);
+            color: var(--accent);
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+        
+        .team-achievements, .team-projects {
+            margin-top: 40px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .achievements-list, .projects-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .achievement-item, .project-item {
+            background-color: rgba(138, 99, 255, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 3px solid var(--primary);
+        }
+        
+        .item-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+        
+        .item-desc {
+            opacity: 0.9;
             line-height: 1.6;
         }
         
@@ -488,12 +518,12 @@
                 font-size: 2rem;
             }
             
-            .empty-icon {
-                font-size: 3.5rem;
+            .team-grid {
+                gap: 20px;
             }
             
-            .empty-title {
-                font-size: 1.5rem;
+            .achievements-list, .projects-list {
+                gap: 15px;
             }
         }
         
@@ -512,8 +542,12 @@
                 font-size: 0.85rem;
             }
             
-            .empty-icon {
-                font-size: 3rem;
+            .card {
+                padding: 20px;
+            }
+            
+            .team-member {
+                padding: 20px;
             }
         }
         
@@ -524,8 +558,17 @@
             right: 0;
         }
         
-        body.uyghur-mode .empty-content {
+        body.uyghur-mode .member-role,
+        body.uyghur-mode .skill-tag,
+        body.uyghur-mode .achievement-item,
+        body.uyghur-mode .project-item {
             direction: rtl;
+        }
+        
+        body.uyghur-mode .achievement-item,
+        body.uyghur-mode .project-item {
+            border-left: none;
+            border-right: 3px solid var(--primary);
         }
     </style>
 </head>
@@ -540,7 +583,7 @@
             
             <div class="nav-links">
                 <a href="index.html" class="nav-link" data-lang-key="nav.home">首页</a>
-                <a href=" # " class="nav-link" data-lang-key="nav.page">专属定制</a>
+                <a href="#" class="nav-link" data-lang-key="nav.team">团队介绍</a>
             </div>
             
             <div class="navbar-right">
@@ -570,30 +613,135 @@
         
         <!-- 主要内容 -->
         <main>
-            <div class="empty-content">
-                <div class="empty-icon">🛠️</div>
-                <h1 class="empty-title" data-lang-key="empty.title">专属页面待定制</h1>
-                <p class="empty-description" data-lang-key="empty.description">
-                    此页面还未被定制，暂无专属内容展示。您可以联系我创建个性化的专属页面，用于惊喜祝福、特殊纪念或任何您想要的用途。
-                </p>
+            <!-- 头部标题 -->
+            <header>
+                <h1 data-lang-key="team.title">创新技术团队</h1>
+                <p class="tagline" data-lang-key="team.slogan">以技术驱动创新，以协作成就卓越</p>
+            </header>
+            
+            <!-- 团队成员卡片 -->
+            <div class="card">
+                <h2 data-lang-key="team.members">团队成员</h2>
                 
-                <div class="card">
-                    <h2 data-lang-key="empty.features">专属页面功能</h2>
-                    <ul style="text-align: left; margin-bottom: 20px; padding-left: 20px;">
-                        <li data-lang-key="empty.feature1">完全个性化的设计和内容</li>
-                        <li data-lang-key="empty.feature2">支持文字、图片、视频等多种媒体</li>
-                        <li data-lang-key="empty.feature3">可选择公开或加密保护</li>
-                        <li data-lang-key="empty.feature4">响应式设计，适配所有设备</li>
-                    </ul>
+                <!-- 团队网格布局 -->
+                <div class="team-grid">
+                    <!-- 团队队长 -->
+                    <div class="team-member">
+                        <span class="member-role" data-lang-key="team.captain">团队队长</span>
+                        <h3 class="member-name" data-lang-key="team.captain.name">张明</h3>
+                        <p class="member-title" data-lang-key="team.captain.title">技术总监</p>
+                        <p class="member-bio" data-lang-key="team.captain.bio">10年+软件开发与团队管理经验，专注于分布式系统架构设计，曾主导多个大型项目从0到1落地，具备丰富的技术决策和团队协作经验。</p>
+                        <div class="member-skills">
+                            <strong data-lang-key="team.skills">核心技能：</strong>
+                            <div class="skills-list">
+                                <span class="skill-tag" data-lang-key="team.skill1">架构设计</span>
+                                <span class="skill-tag" data-lang-key="team.skill2">分布式系统</span>
+                                <span class="skill-tag" data-lang-key="team.skill3">团队管理</span>
+                                <span class="skill-tag" data-lang-key="team.skill4">技术决策</span>
+                            </div>
+                        </div>
+                    </div>
                     
-                    <a href="index.html" 
-                       class="pixel-btn" 
-                       data-lang-key="empty.contact"
-                       target="_blank" 
-                       rel="noopener noreferrer">
-                        联系我定制专属页面
-                    </a>
+                    <!-- 团队成员1 -->
+                    <div class="team-member">
+                        <span class="member-role" data-lang-key="team.member">团队成员</span>
+                        <h3 class="member-name" data-lang-key="team.member1.name">李华</h3>
+                        <p class="member-title" data-lang-key="team.member1.title">高级后端工程师</p>
+                        <p class="member-bio" data-lang-key="team.member1.bio">5年后端开发经验，精通Java、Python等编程语言，擅长高并发系统开发和性能优化，参与多个核心业务系统的设计与实现。</p>
+                        <div class="member-skills">
+                            <strong data-lang-key="team.skills">核心技能：</strong>
+                            <div class="skills-list">
+                                <span class="skill-tag" data-lang-key="team.skill5">Java/Python</span>
+                                <span class="skill-tag" data-lang-key="team.skill6">高并发</span>
+                                <span class="skill-tag" data-lang-key="team.skill7">性能优化</span>
+                                <span class="skill-tag" data-lang-key="team.skill8">微服务</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 团队成员2 -->
+                    <div class="team-member">
+                        <span class="member-role" data-lang-key="team.member">团队成员</span>
+                        <h3 class="member-name" data-lang-key="team.member2.name">王芳</h3>
+                        <p class="member-title" data-lang-key="team.member2.title">前端技术专家</p>
+                        <p class="member-bio" data-lang-key="team.member2.bio">6年前端开发经验，精通Vue、React等框架，专注于用户体验优化和响应式设计，具备丰富的大型项目前端架构设计经验。</p>
+                        <div class="member-skills">
+                            <strong data-lang-key="team.skills">核心技能：</strong>
+                            <div class="skills-list">
+                                <span class="skill-tag" data-lang-key="team.skill9">Vue/React</span>
+                                <span class="skill-tag" data-lang-key="team.skill10">UI/UX设计</span>
+                                <span class="skill-tag" data-lang-key="team.skill11">响应式开发</span>
+                                <span class="skill-tag" data-lang-key="team.skill12">性能优化</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 团队成员3 -->
+                    <div class="team-member">
+                        <span class="member-role" data-lang-key="team.member">团队成员</span>
+                        <h3 class="member-name" data-lang-key="team.member3.name">赵强</h3>
+                        <p class="member-title" data-lang-key="team.member3.title">数据工程师</p>
+                        <p class="member-bio" data-lang-key="team.member3.bio">4年数据处理与分析经验，精通Hadoop、Spark等大数据技术栈，擅长数据建模和ETL开发，为业务决策提供数据支持。</p>
+                        <div class="member-skills">
+                            <strong data-lang-key="team.skills">核心技能：</strong>
+                            <div class="skills-list">
+                                <span class="skill-tag" data-lang-key="team.skill13">Hadoop/Spark</span>
+                                <span class="skill-tag" data-lang-key="team.skill14">数据建模</span>
+                                <span class="skill-tag" data-lang-key="team.skill15">ETL开发</span>
+                                <span class="skill-tag" data-lang-key="team.skill16">数据分析</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                
+                <!-- 团队成就 -->
+                <div class="team-achievements">
+                    <h2 data-lang-key="team.achievements">团队成就</h2>
+                    <div class="achievements-list">
+                        <div class="achievement-item">
+                            <h3 class="item-title" data-lang-key="team.achievement1.title">国家级技术创新奖</h3>
+                            <p class="item-desc" data-lang-key="team.achievement1.desc">主导开发的分布式存储系统荣获2024年国家级技术创新二等奖，相关技术已申请3项发明专利。</p>
+                        </div>
+                        <div class="achievement-item">
+                            <h3 class="item-title" data-lang-key="team.achievement2.title">行业标杆项目</h3>
+                            <p class="item-desc" data-lang-key="team.achievement2.desc">参与开发的智慧政务平台服务全国10+省市，累计处理业务量超1亿次，系统可用性达99.99%。</p>
+                        </div>
+                        <div class="achievement-item">
+                            <h3 class="item-title" data-lang-key="team.achievement3.title">技术社区贡献</h3>
+                            <p class="item-desc" data-lang-key="team.achievement3.desc">团队成员在GitHub开源多个技术组件，累计获得1000+ Star，参与编写3本技术书籍和10+行业技术白皮书。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 团队项目 -->
+                <div class="team-projects">
+                    <h2 data-lang-key="team.projects">代表项目</h2>
+                    <div class="projects-list">
+                        <div class="project-item">
+                            <h3 class="item-title" data-lang-key="team.project1.title">分布式海量数据存储平台</h3>
+                            <p class="item-desc" data-lang-key="team.project1.desc">支持PB级数据存储与管理，具备高可靠、高扩展、低成本特性，已应用于金融、医疗等多个行业，服务500+企业客户。</p>
+                        </div>
+                        <div class="project-item">
+                            <h3 class="item-title" data-lang-key="team.project2.title">智慧城市运营管理系统</h3>
+                            <p class="item-desc" data-lang-key="team.project2.desc">整合物联网、大数据、AI技术，实现城市交通、环保、安防等多领域的智能管理，已在3个省会城市落地应用。</p>
+                        </div>
+                        <div class="project-item">
+                            <h3 class="item-title" data-lang-key="team.project3.title">企业级AI智能分析平台</h3>
+                            <p class="item-desc" data-lang-key="team.project3.desc">提供数据采集、分析、可视化一站式服务，内置10+行业算法模型，帮助企业实现数据驱动决策，已服务200+中大型企业。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 联系按钮 -->
+            <div style="text-align: center; margin: 50px 0;">
+                <a href="index.html" 
+                   class="pixel-btn" 
+                   data-lang-key="team.contact"
+                   target="_blank" 
+                   rel="noopener noreferrer">
+                    联系团队合作
+                </a>
             </div>
         </main>
         
@@ -608,36 +756,116 @@
         const languageData = {
             zh: {
                 "nav.home": "首页",
-                "nav.page": "专属定制",
-                "empty.title": "专属页面待定制",
-                "empty.description": "此页面还未被定制，暂无专属内容展示。您可以联系我创建个性化的专属页面，用于惊喜祝福、特殊纪念或任何您想要的用途。",
-                "empty.features": "专属页面功能",
-                "empty.feature1": "完全个性化的设计和内容",
-                "empty.feature2": "支持文字、图片、视频等多种媒体",
-                "empty.feature3": "可选择公开或加密保护",
-                "empty.feature4": "响应式设计，适配所有设备",
-                "empty.contact": "联系我定制专属页面",
+                "nav.team": "团队介绍",
+                "team.title": "创新技术团队",
+                "team.slogan": "以技术驱动创新，以协作成就卓越",
+                "team.members": "团队成员",
+                "team.captain": "团队队长",
+                "team.captain.name": "张明",
+                "team.captain.title": "技术总监",
+                "team.captain.bio": "10年+软件开发与团队管理经验，专注于分布式系统架构设计，曾主导多个大型项目从0到1落地，具备丰富的技术决策和团队协作经验。",
+                "team.member": "团队成员",
+                "team.member1.name": "李华",
+                "team.member1.title": "高级后端工程师",
+                "team.member1.bio": "5年后端开发经验，精通Java、Python等编程语言，擅长高并发系统开发和性能优化，参与多个核心业务系统的设计与实现。",
+                "team.member2.name": "王芳",
+                "team.member2.title": "前端技术专家",
+                "team.member2.bio": "6年前端开发经验，精通Vue、React等框架，专注于用户体验优化和响应式设计，具备丰富的大型项目前端架构设计经验。",
+                "team.member3.name": "赵强",
+                "team.member3.title": "数据工程师",
+                "team.member3.bio": "4年数据处理与分析经验，精通Hadoop、Spark等大数据技术栈，擅长数据建模和ETL开发，为业务决策提供数据支持。",
+                "team.skills": "核心技能：",
+                "team.skill1": "架构设计",
+                "team.skill2": "分布式系统",
+                "team.skill3": "团队管理",
+                "team.skill4": "技术决策",
+                "team.skill5": "Java/Python",
+                "team.skill6": "高并发",
+                "team.skill7": "性能优化",
+                "team.skill8": "微服务",
+                "team.skill9": "Vue/React",
+                "team.skill10": "UI/UX设计",
+                "team.skill11": "响应式开发",
+                "team.skill12": "性能优化",
+                "team.skill13": "Hadoop/Spark",
+                "team.skill14": "数据建模",
+                "team.skill15": "ETL开发",
+                "team.skill16": "数据分析",
+                "team.achievements": "团队成就",
+                "team.achievement1.title": "国家级技术创新奖",
+                "team.achievement1.desc": "主导开发的分布式存储系统荣获2024年国家级技术创新二等奖，相关技术已申请3项发明专利。",
+                "team.achievement2.title": "行业标杆项目",
+                "team.achievement2.desc": "参与开发的智慧政务平台服务全国10+省市，累计处理业务量超1亿次，系统可用性达99.99%。",
+                "team.achievement3.title": "技术社区贡献",
+                "team.achievement3.desc": "团队成员在GitHub开源多个技术组件，累计获得1000+ Star，参与编写3本技术书籍和10+行业技术白皮书。",
+                "team.projects": "代表项目",
+                "team.project1.title": "分布式海量数据存储平台",
+                "team.project1.desc": "支持PB级数据存储与管理，具备高可靠、高扩展、低成本特性，已应用于金融、医疗等多个行业，服务500+企业客户。",
+                "team.project2.title": "智慧城市运营管理系统",
+                "team.project2.desc": "整合物联网、大数据、AI技术，实现城市交通、环保、安防等多领域的智能管理，已在3个省会城市落地应用。",
+                "team.project3.title": "企业级AI智能分析平台",
+                "team.project3.desc": "提供数据采集、分析、可视化一站式服务，内置10+行业算法模型，帮助企业实现数据驱动决策，已服务200+中大型企业。",
+                "team.contact": "联系团队合作",
                 "footer.copyright": "© 2025 可乐科技 · 保留所有权利",
                 "footer.slogan": "探索前所未有的奇妙工具",
                 "language.chinese": "中文",
-                "language.english": "English",
                 "language.uyghur": "ئۇيغۇرچە"
             },
             ug: {
                 "nav.home": "باش بەت",
-                "nav.page": "مەخسۇس زاكاز قىلىش",
-                "empty.title": "خاس بەت تەييارلىنىۋاتىدۇ",
-                "empty.description": "بۇ بەت تېخى خاسلىشتۇرۇلمىغان، ھېچقانداق خاس مەزمۇن كۆرسىتىلمىگەن. سىز مېنىڭ بىلەن ئالاقىلىشىپ، خوشاللىق تەبرىك، ئالاھىدە خاتىرە ياكى خالىغان نەرسىڭىز ئۈچۈن شەخسىيلەشتۈرۈلگەن بەت قۇرالايسىز.",
-                "empty.features": "خاس بەت ئىقتىدارى",
-                "empty.feature1": "تولۇق شەخسىيلەشتۈرۈلگەن لايىھە ۋە مەزمۇن",
-                "empty.feature2": "تېكىست، رەسىم، ۋىدىئو قاتارلىق كۆپ خىل ۋاستىلارنى قوللايدۇ",
-                "empty.feature3": "ئاشكارە ياكى شىفىرلانغان قوغداشنى تاللىيالايسىز",
-                "empty.feature4": "جاۋاب بېرىشچان لايىھە، بارلىق قۇراللارغا ماسلىشىدۇ",
-                "empty.contact": "مەن بىلەن ئالاقىلىشىپ خاس بەت قۇرۇش",
+                "nav.team": "تیم ئۇچۇرى",
+                "team.title": "يېڭىلىك تېخنىكا تیمى",
+                "team.slogan": "تېخنىكا بىلەن يېڭىلىككە قۇدۇرۇش، بىلەنلىك بىلەن ئەلگىرلىقىغا ئېرىشىش",
+                "team.members": "تیم ئەۋەللىرى",
+                "team.captain": "تیم رۇككىسى",
+                "team.captain.name": "جانمىڭ",
+                "team.captain.title": "تېخنىكا دىرېكتۆرى",
+                "team.captain.bio": "10 يىلدىن ئېشقان سوفتۋېر تەمىرلەش ۋە تیم باشقۇرۇش تەجىربىسى بولۇپ، دىستربۇتېد سىستېما ئىزچىلەشكە تۇرۇشقان، ئەككەمچە چوڭ خېمتەرلىك پروژېكتلەرنى 0 دىن 1 گىچە قوزغۇشقان، ئەلگىر تېخنىكا قەرار قىلىش ۋە تیم بىلەنلىك تەجىربىسى بولۇدۇ.",
+                "team.member": "تیم ئەۋەلىسى",
+                "team.member1.name": "لى خۇا",
+                "team.member1.title": "يۇقىرى سۇتۋەر ئىنجىنېرى",
+                "team.member1.bio": "5 يىلدىن ئېشقان سۇتۋەر تەمىرلەش تەجىربىسى بولۇپ، Java، Python قاتارلىق پروگراممىلاش تىللىرىدە خۇشال، يۇقىرى konkurrenciya سىستېما تەمىرلەش ۋە خىمىيەت تونۇتۇشغا ئۇنۇمتە، ئەككەمچە خېمتەرلىك خىدمەت سىستېمىلىرىڭى ئىزچىلەش ۋە ئىشلەتكەن.",
+                "team.member2.name": "وانگ فانغ",
+                "team.member2.title": "فронتېند تېخنىكا مۇلاخاسى",
+                "team.member2.bio": "6 يىلدىن ئېشقان فرونتېند تەمىرلەش تەجىربىسى بولۇپ، Vue، React قاتارلىق فريملىكىلەرىدە خۇشال، ئىشلەتكۈچى تېخىرىگە تونۇتۇش ۋە رېسپونسىۋ دىزاينىڭغا تۇرۇشقان، چوڭ خېمتەرلىك پروژېكتلەرنىڭ فرونتېند ئىزچىلىشىغا ئەلگىر تەجىربىسى بولۇدۇ.",
+                "team.member3.name": "جاۋقۇاڭ",
+                "team.member3.title": "داتا ئىنجىنېرى",
+                "team.member3.bio": "4 يىلدىن ئېشقان داتا ئىشلەتكەن ۋە ئىزچىلەش تەجىربىسى بولۇپ، Hadoop، Spark قاتارلىق چوڭ داتا تېخنىكا س్టېكىدە خۇشال، داتا مودېلىدەش ۋە ETL تەمىرلەشكە ئۇنۇمتە، خىدمەت قەرارلىقىغا داتا دەرىسى بېرىدۇ.",
+                "team.skills": "ئەساس ئۇسۇلى: ",
+                "team.skill1": "ئىزچىلەش",
+                "team.skill2": "دىستربۇتېد سىستېما",
+                "team.skill3": "تیم باشقۇرۇش",
+                "team.skill4": "تېخنىكا قەرار",
+                "team.skill5": "Java/Python",
+                "team.skill6": "يۇقىرى konkurrenciya",
+                "team.skill7": "خىمىيەت تونۇتۇش",
+                "team.skill8": "مىكرو خىدمەت",
+                "team.skill9": "Vue/React",
+                "team.skill10": "UI/UX دىزاينى",
+                "team.skill11": "رېسپونسىۋ تەمىرلەش",
+                "team.skill12": "خىمىيەت تونۇتۇش",
+                "team.skill13": "Hadoop/Spark",
+                "team.skill14": "داتا مودېلىدەش",
+                "team.skill15": "ETL تەمىرلەش",
+                "team.skill16": "داتا ئىزچىلەش",
+                "team.achievements": "تیم ئالەملىقى",
+                "team.achievement1.title": "مۇلۇكىي تېخنىكا يېڭىلىك مۇكاپىلاتى",
+                "team.achievement1.desc": "قوزغۇلۇق قىلىشقان دىستربۇتېد سۇرۇش سىستېمىسى 2024 يىلى مۇلۇكىي تېخنىكا يېڭىلىك ئىككىنچى مۇكاپىلاتىнى ئېرىشقان، مۇلۇكىي تېخنىكىلەر 3 نەچە پاتېنتىغا ئىلتىماس قىلىنغان.",
+                "team.achievement2.title": "سېکتور ئىشلىك پروژېكتى",
+                "team.achievement2.desc": "ئەگەرلىك قىلىشقان ئەگەرلىك حۇكۇمىت پلاتفورمىسى ئۇلۇسلىك 10+ شىرىكىت ۋە شەھەرلەرگە خىدمەت قىلىۋاتتى، جۇملىدىك خىدمەت سانى 1 مىليونلۇقىغا يېتتى، سىستېما ئىشلەيتكەنلىكى 99.99% دە.",
+                "team.achievement3.title": "تېخنىكا جۇمھۇرىيىتىغا قوسۇش",
+                "team.achievement3.desc": "تیم ئەۋەللىرى GitHub دە ئەككەمچە تېخنىكا كومپونېنتلىرىنى ئوپەن سورس قىلىشقان، جۇملىدىك 1000+ Star ئېرىشقان، 3 نەچە تېخنىكا كىتابى ۋە 10+ سېکتور تېخنىكا خۇشاللىقى خۇجۇمىسىدە ئەگەرلىك قىلىشقان.",
+                "team.projects": "مۇلۇكىي پروژېكتلەر",
+                "team.project1.title": "دىستربۇتېد چوڭ داتا سۇرۇش پلاتفورمىسى",
+                "team.project1.desc": "PB سىزىدەك داتا سۇرۇش ۋە باشقۇرۇشقانغا قوللايدۇ، يۇقىرى ишىلەيتكەنلىك، يۇقىرى توسۇلۇش، نىزكى مۇلۇك خاسلىقىغى بولۇدۇ، فىنانس، ساغلاملىق قاتارلىق ئەككەمچە سېکتورلەرگە ئىشلەتكەنلىك، 500+ كۈشەلەرىگە خىدمەت قىلىۋاتتى.",
+                "team.project2.title": "ئەگەرلىك شەھەر ئىشلەيتكەن باشقۇرۇش سىستېمىسى",
+                "team.project2.desc": "ئېلېكترونىك ئۇلۇسلىق قۇرۇلما، چوڭ داتا، AI تېخنىكىلەرىنى بىلەنلىك قىلىشقان، شەھەر تۇرگۇدۇش، ئىسلىك، خەپىيەت قاتارلىق ئەككەمچە سىستېمىلەرىدە ئەگەرلىك باشقۇرۇشقان، 3 نەچە ئۇلۇسىي شەھەرلەرگە ئىشلەتكەنلىك.",
+                "team.project3.title": "كۈشەلەرى ئۇچۇن AI ئەگەرلىك ئىزچىلەش پلاتفورمىسى",
+                "team.project3.desc": "داتا toplama، ئىزچىلەش، خىل ئەگەرلىك كۆرسىتىش بىر ئىشلەتكۈچىلىك خىدمەتىنى بېرىدۇ، 10+ سېکتور ئەلگىرلىقىلىق ئەلگىرلىقىلىق ئەلگىرلىقىلىق مودېللىرى بىلەنلىك قىلىشقان، كۈشەلەرگە داتا بىلەن قەرار قىلىشغا ياردەم بېرىدۇ، 200+ ئوتتۇرىدەك چوڭ كۈشەلەرگە خىدمەت قىلىۋاتتى.",
+                "team.contact": "تیم بىلەن سۆگۈشۈشقانلىقىغا ئالاقىلىشىش",
                 "footer.copyright": "© 2025 كولا تېخنىكا · بارلىق ھوقۇق ساقلانغان",
                 "footer.slogan": "مىسلى كۆرۈلمىگەن ئاجايىپ قوراللار ئۈستىدە ئىزدىنىش",
                 "language.chinese": "خەنزۇچە",
-                "language.english": "ئىنگلىزچە",
                 "language.uyghur": "ئۇيغۇرچە"
             }
         };
